@@ -17,7 +17,9 @@ export default function Footer() {
                 <Text>
                     Made by: <Link href="https://github.com/onee-only">onee-only</Link>
                 </Text>
-                <Link href="https://github.com/oneecoin">Visit my Repository</Link>
+                <Link href="https://github.com/oneecoin">
+                    Visit Oneecoin's Repositories
+                </Link>
             </VStack>
         </Box>
     );

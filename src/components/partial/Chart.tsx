@@ -18,6 +18,7 @@ import ApexCharts from "react-apexcharts";
 export default function Chart() {
     const { colorMode } = useColorMode();
     const boxColor = useColorModeValue("white", "#1f2634");
+    const statColor = useColorModeValue("blue.600", "blue.300");
     return (
         <>
             <Box width={"700px"} boxShadow={"lg"} borderRadius={"2xl"} bgColor={boxColor}>
@@ -47,7 +48,6 @@ export default function Chart() {
                             floating: false,
                             style: {
                                 fontSize: "2rem",
-                                fontWeight: "bold",
                                 fontFamily: "Raleway",
                                 color: "",
                             },
@@ -124,17 +124,17 @@ export default function Chart() {
                     >
                         <Stat>
                             <StatLabel>합계</StatLabel>
-                            <StatNumber>250</StatNumber>
+                            <StatNumber color={statColor}>250</StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>평균</StatLabel>
-                            <StatNumber>30</StatNumber>
+                            <StatNumber color={statColor}>30</StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>최고</StatLabel>
-                            <StatNumber>50</StatNumber>
+                            <StatNumber color={statColor}>50</StatNumber>
                         </Stat>
                     </VStack>
                 </StatGroup>

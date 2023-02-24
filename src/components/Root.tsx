@@ -5,7 +5,7 @@ import Header from "./partial/Header";
 
 export default function Root() {
     return (
-        <Box justifyContent={"center"} width={"100%"} minWidth={"1700px"}>
+        <Box justifyContent={"center"} width={"100%"} minWidth={"1688px"}>
             <Header />
             <Box marginX={"28"}>
                 <Outlet />
