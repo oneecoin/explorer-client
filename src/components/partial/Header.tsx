@@ -38,7 +38,7 @@ export default function Header() {
                     <Button colorScheme={"blue"} onClick={onOpen}>
                         Get Started
                     </Button>
-                    <Button colorScheme={"blue"} variant={"outline"} onClick={onOpen}>
+                    <Button colorScheme={"blue"} variant={"outline"}>
                         Become a Miner
                     </Button>
                 </HStack>
