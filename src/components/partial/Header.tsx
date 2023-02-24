@@ -23,11 +23,21 @@ import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 export default function Header() {
     const borderColor = useColorModeValue("gray.200", "gray.600");
     const logoColor = useColorModeValue("blue.600", "blue.300");
+    const headerColor = useColorModeValue("white", "gray.800");
     const { toggleColorMode } = useColorMode();
     const Icon = useColorModeValue(BsSunFill, BsFillMoonFill);
     const { isOpen, onClose, onOpen } = useDisclosure();
     return (
-        <Box borderBottom={"1px"} borderColor={borderColor} width={"100%"} height={"16"}>
+        <Box
+            borderBottom={"1px"}
+            borderColor={borderColor}
+            backgroundColor={headerColor}
+            width={"100%"}
+            height={"16"}
+            position={"sticky"}
+            top={"0"}
+            zIndex={"5"}
+        >
             <HStack
                 marginX={"28"}
                 height={"100%"}
