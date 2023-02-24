@@ -1,12 +1,13 @@
-import { Box, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Link, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
 export default function Footer() {
+    const borderColor = useColorModeValue("gray.200", "gray.600");
     return (
         <Box marginTop={"12"} width={"100%"}>
             <VStack
                 marginX={"28"}
                 borderTop={"1px"}
-                borderColor={"gray.200"}
+                borderColor={borderColor}
                 fontSize={"large"}
                 color={"gray.500"}
                 gap={"2"}

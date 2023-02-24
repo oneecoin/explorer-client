@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     HStack,
+    IconButton,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -10,30 +11,46 @@ import {
     ModalHeader,
     ModalOverlay,
     Text,
+    useColorMode,
+    useColorModeValue,
     useDisclosure,
     VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FaGithub, FaKiwiBird } from "react-icons/fa";
+import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 
 export default function Header() {
+    const borderColor = useColorModeValue("gray.200", "gray.600");
+    const logoColor = useColorModeValue("blue.600", "blue.300");
+    const { toggleColorMode } = useColorMode();
+    const Icon = useColorModeValue(BsSunFill, BsFillMoonFill);
     const { isOpen, onClose, onOpen } = useDisclosure();
     return (
-        <Box borderBottom={"1px"} borderColor={"gray.200"} width={"100%"} height={"16"}>
+        <Box borderBottom={"1px"} borderColor={borderColor} width={"100%"} height={"16"}>
             <HStack
                 marginX={"28"}
                 height={"100%"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
             >
-                <Link to={"/"}>
-                    <HStack fontSize={"4xl"} color={"blue.600"}>
-                        <FaKiwiBird />
-                        <Text fontSize={"3xl"} color={"blue.500"}>
-                            Oneecoin
-                        </Text>
-                    </HStack>
-                </Link>
+                <HStack gap={"8"}>
+                    <Link to={"/"}>
+                        <HStack fontSize={"4xl"} color={logoColor}>
+                            <FaKiwiBird />
+                            <Text fontSize={"3xl"} color={logoColor}>
+                                Oneecoin
+                            </Text>
+                        </HStack>
+                    </Link>
+                    <IconButton
+                        color={"gray.500"}
+                        onClick={toggleColorMode}
+                        variant={"ghost"}
+                        aria-label="Toggle dark mode"
+                        icon={<Icon />}
+                    />
+                </HStack>
                 <HStack>
                     <Button colorScheme={"blue"} onClick={onOpen}>
                         Get Started
