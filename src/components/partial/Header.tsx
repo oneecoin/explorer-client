@@ -17,7 +17,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaGithub, FaKiwiBird } from "react-icons/fa";
+import { FaCoins, FaCrow, FaGithub } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 
 export default function Header() {
@@ -37,7 +37,7 @@ export default function Header() {
                 <HStack gap={"8"}>
                     <Link to={"/"}>
                         <HStack fontSize={"4xl"} color={logoColor}>
-                            <FaKiwiBird />
+                            <FaCrow />
                             <Text fontSize={"3xl"} color={logoColor}>
                                 Oneecoin
                             </Text>
@@ -55,7 +55,11 @@ export default function Header() {
                     <Button colorScheme={"blue"} onClick={onOpen}>
                         Get Started
                     </Button>
-                    <Button colorScheme={"blue"} variant={"outline"}>
+                    <Button
+                        colorScheme={"blue"}
+                        variant={"outline"}
+                        leftIcon={<FaCoins />}
+                    >
                         Become a Miner
                     </Button>
                 </HStack>
