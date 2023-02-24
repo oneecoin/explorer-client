@@ -1,5 +1,12 @@
+import { Box } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
+import Header from "./partial/Header";
 
 export default function Root() {
-    return <Outlet />;
+    return (
+        <Box>
+            <Header />
+            <Outlet />
+        </Box>
+    );
 }
