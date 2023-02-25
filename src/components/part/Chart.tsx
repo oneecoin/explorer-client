@@ -66,7 +66,7 @@ export default function Chart() {
                     ]}
                     options={{
                         noData: {
-                            text: "No Data",
+                            text: "No Data :(",
                             align: "center",
                             verticalAlign: "middle",
                             offsetX: 0,

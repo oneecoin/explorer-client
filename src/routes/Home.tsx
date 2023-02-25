@@ -30,7 +30,7 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
-import { FaRegStickyNote, FaStickyNote } from "react-icons/fa";
+import { FaRegHdd } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Chart from "../components/part/Chart";
 
@@ -186,10 +186,18 @@ export default function Home() {
                             borderRadius={"2xl"}
                         >
                             <CardHeader fontSize={"3xl"}>
-                                Network Info{" "}
-                                <Tooltip label="채굴자 네트워크">
-                                    <InfoOutlineIcon color={"gray.500"} fontSize={"md"} />
-                                </Tooltip>
+                                <HStack>
+                                    <Box color={highlightColor}>
+                                        <FaRegHdd />
+                                    </Box>
+                                    <Text color={""}>Network Info</Text>{" "}
+                                    <Tooltip label="채굴자 네트워크">
+                                        <InfoOutlineIcon
+                                            color={"gray.500"}
+                                            fontSize={"md"}
+                                        />
+                                    </Tooltip>
+                                </HStack>
                             </CardHeader>
                             <CardBody>
                                 <StatGroup>

@@ -9,9 +9,11 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaCoins, FaCrow } from "react-icons/fa";
+import { FaBars, FaCoins, FaCrow } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 import UserBar from "./UserBar";
+import { useRef } from "react";
+import UtilDrawaer from "./UtilDrawer";
 
 export default function Header() {
     const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -20,6 +22,7 @@ export default function Header() {
     const { toggleColorMode } = useColorMode();
     const Icon = useColorModeValue(BsSunFill, BsFillMoonFill);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const btnRef = useRef(null);
 
     return (
         <Box
@@ -64,6 +67,14 @@ export default function Header() {
                     >
                         Become a Miner
                     </Button>
+                    <IconButton
+                        aria-label="bar"
+                        icon={<FaBars />}
+                        ref={btnRef}
+                        colorScheme={"blue"}
+                        onClick={onOpen}
+                    />
+                    <UtilDrawaer isOpen={isOpen} onClose={onClose} ref={btnRef} />
                 </HStack>
             </HStack>
         </Box>

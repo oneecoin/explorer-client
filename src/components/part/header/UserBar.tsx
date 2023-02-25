@@ -81,34 +81,34 @@ export default function UserBar() {
                                 </PopoverContent>
                             </Popover>
                         </HStack>
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Sign Up or Sign In</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
-                                    <VStack mt={"5"}>
-                                        <Text marginBottom={"5"}>
-                                            Oneecoin은 Github OAuth만을 지원합니다
-                                        </Text>
-                                        <Button
-                                            width={"80%"}
-                                            height="12"
-                                            fontSize={"larger"}
-                                            leftIcon={<FaGithub />}
-                                            as={"a"}
-                                            href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
-                                        >
-                                            Continue
-                                        </Button>
-                                    </VStack>
-                                </ModalBody>
-                                <ModalFooter></ModalFooter>
-                            </ModalContent>
-                        </Modal>
                     </>
                 )
             ) : null}
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Sign Up or Sign In</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <VStack mt={"5"}>
+                            <Text marginBottom={"5"}>
+                                Oneecoin은 Github OAuth만을 지원합니다
+                            </Text>
+                            <Button
+                                width={"80%"}
+                                height="12"
+                                fontSize={"larger"}
+                                leftIcon={<FaGithub />}
+                                as={"a"}
+                                href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
+                            >
+                                Continue
+                            </Button>
+                        </VStack>
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </ModalContent>
+            </Modal>
         </>
     );
 }
