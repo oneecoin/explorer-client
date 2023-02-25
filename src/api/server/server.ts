@@ -2,7 +2,7 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 import Cookie from "js-cookie";
 import moment from "moment";
 
-const server = axios.create({
+export const server = axios.create({
     baseURL: "https://oneecoin-explorer-server.onrender.com",
     withCredentials: true,
 });
