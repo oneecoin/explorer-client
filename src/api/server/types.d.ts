@@ -1,6 +1,6 @@
 export interface ITinyMe {
     pk: number;
     username: string;
-    messageCount: number;
+    message_count: number;
     avatar: string;
 }

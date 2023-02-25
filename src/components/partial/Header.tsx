@@ -1,4 +1,9 @@
 import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
     Avatar,
     Box,
     Button,
@@ -11,6 +16,13 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTrigger,
     Text,
     useColorMode,
     useColorModeValue,
@@ -18,9 +30,10 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaCoins, FaCrow, FaGithub } from "react-icons/fa";
+import { FaBell, FaCoins, FaCrow, FaGithub } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 import { useTinyUser } from "../../api/server/auth";
+import { BellIcon } from "@chakra-ui/icons";
 
 export default function Header() {
     const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -71,7 +84,74 @@ export default function Header() {
                                 Get Started
                             </Button>
                         ) : (
-                            <Avatar size={"sm"} src={user?.avatar}></Avatar>
+                            <>
+                                <HStack paddingRight={"6"}>
+                                    <Avatar size={"sm"} src={user?.avatar} />
+                                    <Text>{user?.username}</Text>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Box fontSize={"xl"} position={"relative"}>
+                                                <FaBell />
+                                                {user?.message_count !== 0 ? (
+                                                    <Box
+                                                        rounded={"full"}
+                                                        width={"4"}
+                                                        height={"4"}
+                                                        position={"absolute"}
+                                                        top={"-0.5"}
+                                                        right={"-2"}
+                                                        bgColor={"red.300"}
+                                                        color={"white"}
+                                                        fontSize={"xs"}
+                                                        justifyContent={"center"}
+                                                        alignItems={"center"}
+                                                        display={"flex"}
+                                                    >
+                                                        <Text marginBottom={"0.5"}>
+                                                            {user?.message_count}
+                                                        </Text>
+                                                    </Box>
+                                                ) : null}
+                                            </Box>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <PopoverArrow />
+                                            <PopoverCloseButton />
+                                            <PopoverHeader>Notification</PopoverHeader>
+                                            <PopoverBody>
+                                                <Accordion
+                                                    defaultIndex={[0]}
+                                                    allowMultiple
+                                                >
+                                                    <AccordionItem>
+                                                        <AccordionButton>
+                                                            <Box
+                                                                as="span"
+                                                                flex="1"
+                                                                textAlign="left"
+                                                            >
+                                                                Section 1 title
+                                                            </Box>
+                                                            <AccordionIcon />
+                                                        </AccordionButton>
+                                                        <AccordionPanel pb={4}>
+                                                            Lorem ipsum dolor sit amet,
+                                                            consectetur adipiscing elit,
+                                                            sed do eiusmod tempor
+                                                            incididunt ut labore et dolore
+                                                            magna aliqua. Ut enim ad minim
+                                                            veniam, quis nostrud
+                                                            exercitation ullamco laboris
+                                                            nisi ut aliquip ex ea commodo
+                                                            consequat.
+                                                        </AccordionPanel>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </PopoverBody>
+                                        </PopoverContent>
+                                    </Popover>
+                                </HStack>
+                            </>
                         )
                     ) : null}
 
