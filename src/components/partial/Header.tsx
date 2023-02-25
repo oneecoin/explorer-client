@@ -1,4 +1,5 @@
 import {
+    Avatar,
     Box,
     Button,
     HStack,
@@ -19,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 import { FaCoins, FaCrow, FaGithub } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
+import { useTinyUser } from "../../api/server/auth";
 
 export default function Header() {
     const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -27,6 +29,7 @@ export default function Header() {
     const { toggleColorMode } = useColorMode();
     const Icon = useColorModeValue(BsSunFill, BsFillMoonFill);
     const { isOpen, onClose, onOpen } = useDisclosure();
+    const { isLoggedIn, userLoading, user } = useTinyUser();
     return (
         <Box
             borderBottom={"1px"}
@@ -55,16 +58,6 @@ export default function Header() {
                     </Link>
                 </HStack>
                 <HStack>
-                    <Button colorScheme={"blue"} onClick={onOpen}>
-                        Get Started
-                    </Button>
-                    <Button
-                        colorScheme={"blue"}
-                        variant={"outline"}
-                        leftIcon={<FaCoins />}
-                    >
-                        Become a Miner
-                    </Button>
                     <IconButton
                         color={"gray.500"}
                         onClick={toggleColorMode}
@@ -72,6 +65,23 @@ export default function Header() {
                         aria-label="Toggle dark mode"
                         icon={<Icon />}
                     />
+                    {!userLoading ? (
+                        !isLoggedIn ? (
+                            <Button colorScheme={"blue"} onClick={onOpen}>
+                                Get Started
+                            </Button>
+                        ) : (
+                            <Avatar size={"sm"} src={user?.avatar}></Avatar>
+                        )
+                    ) : null}
+
+                    <Button
+                        colorScheme={"blue"}
+                        variant={"outline"}
+                        leftIcon={<FaCoins />}
+                    >
+                        Become a Miner
+                    </Button>
                 </HStack>
             </HStack>
             <Modal isOpen={isOpen} onClose={onClose}>
