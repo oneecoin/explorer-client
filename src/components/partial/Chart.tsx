@@ -13,12 +13,43 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
+import { getTransactionCount } from "../../api/server/transaction";
+
+interface ITransactionCount {
+    date: string;
+    count: number;
+}
 
 export default function Chart() {
     const { colorMode } = useColorMode();
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const statColor = useColorModeValue("blue.600", "blue.300");
+    const [scope, setScope] = useState("week");
+    const [total, setTotal] = useState(0);
+    const [average, setAverage] = useState(0);
+    const [max, setMax] = useState(0);
+    const { isLoading, data } = useQuery<ITransactionCount[]>(
+        ["txCounts", scope],
+        getTransactionCount
+    );
+
+    useEffect(() => {
+        const counts = data?.map(({ count }) => count) ?? [];
+        if (counts.length !== 0) {
+            const totalCount = counts.reduce((acc, cur) => acc + cur, 0);
+            setTotal(totalCount);
+            setAverage(totalCount / counts.length);
+            setMax(Math.max.apply(null, counts));
+        } else {
+            setTotal(0);
+            setAverage(0);
+            setMax(0);
+        }
+    }, [data]);
+
     return (
         <>
             <Box width={"700px"} boxShadow={"lg"} borderRadius={"2xl"} bgColor={boxColor}>
@@ -27,14 +58,26 @@ export default function Chart() {
                     series={[
                         // data
                         {
-                            name: "Sales",
-                            data: [
-                                4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7,
-                                5,
-                            ],
+                            name: "count",
+                            data: isLoading
+                                ? []
+                                : (data?.map(({ count }) => count) as number[]) ?? [],
                         },
                     ]}
                     options={{
+                        noData: {
+                            text: "No Data",
+                            align: "center",
+                            verticalAlign: "middle",
+                            offsetX: 0,
+                            offsetY: 0,
+                            style: {
+                                color: "#bbb",
+                                fontSize: "2rem",
+                                fontFamily: "Raleway",
+                            },
+                        },
+
                         // theme
                         theme: {
                             mode: colorMode,
@@ -87,6 +130,7 @@ export default function Chart() {
                             axisBorder: { show: false },
                             axisTicks: { show: false },
                             labels: { show: false },
+                            categories: data?.map(({ date }) => date) as string[],
                         },
                         yaxis: {
                             //y축의 내용 없앰
@@ -109,10 +153,24 @@ export default function Chart() {
                 <Box marginTop={"5"}>
                     <Text textAlign={"center"}>범위</Text>
                     <HStack justifyContent={"center"} marginTop={"3"}>
-                        <Button width={"24"} isDisabled>
+                        <Button
+                            width={"24"}
+                            isDisabled={scope === "week"}
+                            onClick={() => {
+                                setScope("week");
+                            }}
+                        >
                             7일
                         </Button>
-                        <Button width={"24"}>30일</Button>
+                        <Button
+                            width={"24"}
+                            isDisabled={scope === "month"}
+                            onClick={() => {
+                                setScope("month");
+                            }}
+                        >
+                            30일
+                        </Button>
                     </HStack>
                 </Box>
                 <StatGroup>
@@ -124,17 +182,23 @@ export default function Chart() {
                     >
                         <Stat>
                             <StatLabel>합계</StatLabel>
-                            <StatNumber color={statColor}>250</StatNumber>
+                            <StatNumber color={statColor}>
+                                {total !== 0 ? total : "No Data"}
+                            </StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>평균</StatLabel>
-                            <StatNumber color={statColor}>30</StatNumber>
+                            <StatNumber color={statColor}>
+                                {average !== 0 ? average : "No Data"}
+                            </StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>최고</StatLabel>
-                            <StatNumber color={statColor}>50</StatNumber>
+                            <StatNumber color={statColor}>
+                                {max !== 0 ? max : "No Data"}
+                            </StatNumber>
                         </Stat>
                     </VStack>
                 </StatGroup>
