@@ -12,6 +12,8 @@ export default function GithubConfirm() {
     const confirmLogin = async () => {
         const params = new URLSearchParams(search);
         const code = params.get("code");
+        localStorage.removeItem("exp");
+        localStorage.removeItem("accessToken");
         if (code) {
             const { status, data } = await server.post("/auth/github", { code });
             if (status === 200) {

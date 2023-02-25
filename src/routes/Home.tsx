@@ -32,7 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { FaRegStickyNote, FaStickyNote } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
-import Chart from "../components/partial/Chart";
+import Chart from "../components/part/Chart";
 
 export default function Home() {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
@@ -119,7 +119,7 @@ export default function Home() {
                             </Tr>
                         </Tbody>
                         <TableCaption color={"gray.500"}>
-                            모든 거래는 검증되기 전이므로 유효하지 않은 상태일 수 있습니다
+                            모든 거래는 검증되기 전이므로 유효하지 않을 수 있습니다
                         </TableCaption>
                     </Table>
                 </TableContainer>
