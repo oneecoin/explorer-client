@@ -29,7 +29,9 @@ const refresh = async (
         localStorage.setItem("exp", exp!);
     }
 
-    config.headers!.Authorization = `Bearer ${token}`;
+    if (token !== null) {
+        config.headers!.Authorization = `Bearer ${token}`;
+    }
 
     return config;
 };

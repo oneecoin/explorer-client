@@ -89,6 +89,8 @@ export default function Header() {
                                 height="12"
                                 fontSize={"larger"}
                                 leftIcon={<FaGithub />}
+                                as={"a"}
+                                href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
                             >
                                 Continue
                             </Button>

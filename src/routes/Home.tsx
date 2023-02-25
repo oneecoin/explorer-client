@@ -153,14 +153,14 @@ export default function Home() {
                                     <StatHelpText>hash하기 위한 숫자</StatHelpText>
                                 </Stat>
                             </StatGroup>
-                            <Stat marginTop={"6"}>
+                            <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
                                     aefaelkjh2131l5kjhflauiehf3aeflkjfhelfkjahwelfkjeahflwehflaekjfh
                                 </StatNumber>
                                 <StatHelpText>블록의 해시값</StatHelpText>
                             </Stat>
-                            <Stat marginTop={"6"}>
+                            <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Previous Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
                                     aefaelkjh2131l5kjhflauiehf3aeflkjfhelfkjahwelfkjeahflwehflaekjfh
