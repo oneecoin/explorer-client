@@ -17,7 +17,7 @@ import ApexCharts from "react-apexcharts";
 
 export default function Chart() {
     const { colorMode } = useColorMode();
-    const boxColor = useColorModeValue("white", "#1f2634");
+    const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const statColor = useColorModeValue("blue.600", "blue.300");
     return (
         <>

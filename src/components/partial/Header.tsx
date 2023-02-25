@@ -53,13 +53,6 @@ export default function Header() {
                             </Text>
                         </HStack>
                     </Link>
-                    <IconButton
-                        color={"gray.500"}
-                        onClick={toggleColorMode}
-                        variant={"ghost"}
-                        aria-label="Toggle dark mode"
-                        icon={<Icon />}
-                    />
                 </HStack>
                 <HStack>
                     <Button colorScheme={"blue"} onClick={onOpen}>
@@ -72,6 +65,13 @@ export default function Header() {
                     >
                         Become a Miner
                     </Button>
+                    <IconButton
+                        color={"gray.500"}
+                        onClick={toggleColorMode}
+                        variant={"ghost"}
+                        aria-label="Toggle dark mode"
+                        icon={<Icon />}
+                    />
                 </HStack>
             </HStack>
             <Modal isOpen={isOpen} onClose={onClose}>
