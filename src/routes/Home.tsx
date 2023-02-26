@@ -32,6 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { FaRegHdd } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
+import Helmet from "../components/Helmet";
 import Chart from "../components/part/Chart";
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     return (
         <Box mt={"12"}>
+            <Helmet title="Oneecoin" />
             <HStack justifyContent={"center"}>
                 <Chart />
             </HStack>
