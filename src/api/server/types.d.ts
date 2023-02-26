@@ -17,3 +17,16 @@ export interface IPublicUser {
     public_key: string;
     avatar: string;
 }
+
+export interface IWallet {
+    public_key: string;
+    private_key_hash: string;
+}
+
+export interface IMe {
+    pk: number;
+    email: string;
+    username: string;
+    wallet: IWallet;
+    avatar: string;
+}

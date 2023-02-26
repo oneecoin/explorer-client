@@ -87,7 +87,7 @@ export default function UserBar() {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Sign Up or Sign In</ModalHeader>
+                    <ModalHeader>Get Started</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack mt={"5"}>

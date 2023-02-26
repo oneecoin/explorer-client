@@ -45,6 +45,7 @@ export default function User() {
                 <>
                     {!isError ? (
                         <Box width={"100%"} height={"xl"}>
+                            <Helmet title={`${data.username}`} />
                             <VStack marginX={"12"} gap={"4"}>
                                 <Box
                                     width={"52"}
@@ -80,6 +81,7 @@ export default function User() {
                             width={"100%"}
                             height={"lg"}
                         >
+                            <Helmet title={`User Not Found`} />
                             <Box fontSize={"5xl"}>
                                 <FaUserAltSlash />
                             </Box>
