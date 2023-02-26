@@ -193,7 +193,7 @@ export default function Home() {
                                         <FaRegHdd />
                                     </Box>
                                     <Text color={""}>Network Info</Text>{" "}
-                                    <Tooltip label="채굴자 네트워크">
+                                    <Tooltip label="Miner 네트워크">
                                         <InfoOutlineIcon
                                             color={"gray.500"}
                                             fontSize={"md"}
@@ -234,7 +234,7 @@ export default function Home() {
                                     marginRight={"8"}
                                     marginBottom={"4"}
                                 >
-                                    채굴자 되기
+                                    채굴하기
                                 </Button>
                             </CardFooter>
                         </Card>

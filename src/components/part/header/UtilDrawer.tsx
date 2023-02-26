@@ -14,10 +14,12 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
-import React from "react";
-import { FaCoins, FaUser } from "react-icons/fa";
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { FaCoins, FaGithub, FaUser } from "react-icons/fa";
 import { GoDatabase, GoRadioTower } from "react-icons/go";
 import { useTinyUser } from "../../../api/server/auth";
+import { server } from "../../../api/server/server";
 
 interface IDrawerProps {
     ref: React.MutableRefObject<null>;
@@ -37,6 +39,20 @@ const codes: string[] = [
 export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
     const { isLoggedIn } = useTinyUser();
     const highlightColor = useColorModeValue("blue.600", "blue.300");
+    const queryClient = useQueryClient();
+    const [isLoading, setLoading] = useState(false);
+
+    const onLogout = async () => {
+        setLoading(true);
+        await server.get("/auth/logout");
+        localStorage.removeItem("exp");
+        localStorage.removeItem("accessToken");
+        onClose();
+        queryClient.refetchQueries(["messages"]);
+        queryClient.refetchQueries(["tinyMe"]);
+        setLoading(false);
+    };
+
     return (
         <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={ref}>
             <DrawerOverlay />
@@ -65,6 +81,8 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                                             width={"100%"}
                                             variant={"ghost"}
                                             colorScheme={"pink"}
+                                            onClick={onLogout}
+                                            isLoading={isLoading}
                                         >
                                             로그아웃
                                         </Button>
@@ -73,7 +91,13 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                             ) : (
                                 <>
                                     <Text>로그인 되어있지 않습니다..</Text>
-                                    <Button width={"100%"} marginTop={"3"}>
+                                    <Button
+                                        width={"100%"}
+                                        marginTop={"3"}
+                                        leftIcon={<FaGithub />}
+                                        as={"a"}
+                                        href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
+                                    >
                                         Oneecoin 시작하기
                                     </Button>
                                 </>
@@ -103,7 +127,7 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                             </Box>
                         </HStack>
                         <Button width={"100%"} colorScheme={"blue"} variant={"outline"}>
-                            채굴자 되기
+                            블록체인 채굴하기
                         </Button>
                     </Box>
                 </DrawerBody>

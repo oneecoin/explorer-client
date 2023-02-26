@@ -15,18 +15,26 @@ const refresh = async (
     let token = localStorage.getItem("accessToken");
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (moment.unix(Number(exp)).diff(moment().unix()) < 0 && refreshToken) {
+    if (moment.unix(Number(exp)).diff(moment().unix()) < 0) {
+        if (!refreshToken) {
+            localStorage.removeItem("exp");
+            localStorage.removeItem("accessToken");
+        }
         const body = {
             refreshToken,
         };
 
         // 토큰 갱신 서버통신
-        const { data } = await server.post("/auth/refresh", body);
-
-        token = data.data.access;
-        exp = data.data.exp;
-        localStorage.setItem("accessToken", data.data.accessToken);
-        localStorage.setItem("exp", exp!);
+        const { data, status } = await server.post("/auth/refresh", body);
+        if (status !== 401) {
+            token = data.data.access;
+            exp = data.data.exp;
+            localStorage.setItem("accessToken", data.data.accessToken);
+            localStorage.setItem("exp", exp!);
+        } else {
+            localStorage.removeItem("exp");
+            localStorage.removeItem("accessToken");
+        }
     }
 
     if (token !== null) {

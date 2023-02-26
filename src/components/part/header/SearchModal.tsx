@@ -16,7 +16,7 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { searchUsers } from "../../../api/server/search";
