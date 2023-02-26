@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { FaCoins, FaGithub, FaUser } from "react-icons/fa";
 import { GoDatabase, GoRadioTower } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 import { useTinyUser } from "../../../api/server/auth";
 import { server } from "../../../api/server/server";
 
@@ -41,6 +42,7 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const queryClient = useQueryClient();
     const [isLoading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onLogout = async () => {
         setLoading(true);
@@ -51,6 +53,11 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
         queryClient.refetchQueries(["messages"]);
         queryClient.refetchQueries(["tinyMe"]);
         setLoading(false);
+    };
+
+    const goTo = (url: string) => {
+        onClose();
+        navigate(url);
     };
 
     return (
@@ -78,7 +85,14 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                                     {isLoggedIn ? (
                                         <>
                                             <VStack spacing={"3"}>
-                                                <Button width={"100%"}>내 정보</Button>
+                                                <Button
+                                                    width={"100%"}
+                                                    onClick={() => {
+                                                        goTo("/users/me");
+                                                    }}
+                                                >
+                                                    내 정보
+                                                </Button>
                                                 <Button
                                                     width={"100%"}
                                                     variant={"ghost"}
@@ -118,11 +132,28 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                                 width={"100%"}
                                 leftIcon={<FaCoins />}
                                 colorScheme={"blue"}
+                                onClick={() => {
+                                    goTo("/transactions/create");
+                                }}
                             >
                                 코인 전송하기
                             </Button>
-                            <Button width={"100%"}>블록체인 보기</Button>
-                            <Button width={"100%"}>블록체인 체험하기</Button>
+                            <Button
+                                width={"100%"}
+                                onClick={() => {
+                                    goTo("/blocks");
+                                }}
+                            >
+                                블록체인 보기
+                            </Button>
+                            <Button
+                                width={"100%"}
+                                onClick={() => {
+                                    goTo("/simple=chain");
+                                }}
+                            >
+                                블록체인 체험하기
+                            </Button>
                         </VStack>
                         <HStack fontSize={"xl"} marginBottom={"3"}>
                             <Text fontSize={"2xl"}>네트워크</Text>
@@ -130,7 +161,14 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                                 <GoRadioTower />
                             </Box>
                         </HStack>
-                        <Button width={"100%"} colorScheme={"blue"} variant={"outline"}>
+                        <Button
+                            width={"100%"}
+                            colorScheme={"blue"}
+                            variant={"outline"}
+                            onClick={() => {
+                                goTo("/miners/doc");
+                            }}
+                        >
                             블록체인 채굴하기
                         </Button>
                     </Box>

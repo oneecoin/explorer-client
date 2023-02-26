@@ -171,10 +171,20 @@ export default function Home() {
                             </Stat>
                         </CardBody>
                         <CardFooter justifyContent={"flex-end"}>
-                            <Button colorScheme={"blue"} marginRight={"3"}>
+                            <Button
+                                colorScheme={"blue"}
+                                marginRight={"3"}
+                                as={ReactRouterLink}
+                                to={"/blocks"}
+                            >
                                 모든 블록 보기
                             </Button>
-                            <Button colorScheme={"blue"} variant={"ghost"}>
+                            <Button
+                                colorScheme={"blue"}
+                                variant={"ghost"}
+                                as={ReactRouterLink}
+                                to={"/blocks/?"}
+                            >
                                 상세 정보
                             </Button>
                         </CardFooter>
@@ -233,6 +243,8 @@ export default function Home() {
                                     size={"xs"}
                                     marginRight={"8"}
                                     marginBottom={"4"}
+                                    as={ReactRouterLink}
+                                    to={"/miners/doc"}
                                 >
                                     채굴하기
                                 </Button>
@@ -270,6 +282,8 @@ export default function Home() {
                                     bottom={"6"}
                                     right={"8"}
                                     variant={"outline"}
+                                    as={ReactRouterLink}
+                                    to={"/simple-chain"}
                                 >
                                     글 남기러 가기
                                 </Button>

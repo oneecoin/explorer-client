@@ -54,9 +54,9 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
         []
     );
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(event.target.value);
+        setInput(event.target.value.trim());
         setLoading(true);
-        setTimeoutSearch(event.target.value);
+        setTimeoutSearch(event.target.value.trim());
     };
 
     const myOnclose = () => {
