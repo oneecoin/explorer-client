@@ -24,6 +24,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { IMe } from "../api/server/types";
 import { changeUsername, getMe } from "../api/server/user";
 import Helmet from "../components/Helmet";
@@ -67,107 +68,165 @@ export default function Me() {
     return (
         <>
             {userLoading ? null : (
-                <VStack width={"100%"}>
+                <VStack>
                     <Helmet title={`My Page`} />
                     <HStack
                         width={"80%"}
+                        marginX={"auto"}
                         justifyContent={"space-between"}
+                        alignItems={"start"}
                         marginTop={"16"}
                     >
-                        <VStack width={1 / 3}>
+                        <VStack width={1 / 3} gap={"6"}>
                             <Box width={"80"}>
                                 <Avatar src={data?.avatar} size={"full"} />
                             </Box>
+                            <Link to={`/users/${data?.pk}`}>
+                                <Button variant={"link"} colorScheme={"blue"}>
+                                    공용 프로필 보기
+                                </Button>
+                            </Link>
                         </VStack>
-                        <VStack width={2 / 3} paddingX={"5"} gap={"3"}>
-                            <Text fontSize={"3xl"}>내 정보</Text>
-                            <Divider />
-                            <VStack
-                                alignItems={"start"}
-                                width={"100%"}
-                                paddingLeft={"8"}
-                                gap={"3"}
-                            >
-                                <Box>
-                                    <HStack gap={"2"}>
+                        <VStack width={2 / 3} paddingX={"5"} gap={"16"}>
+                            <Box width={"100%"}>
+                                <Text fontSize={"3xl"} textAlign={"center"}>
+                                    내 정보
+                                </Text>
+                                <Divider />
+                                <VStack
+                                    alignItems={"start"}
+                                    width={"100%"}
+                                    paddingLeft={"8"}
+                                    marginTop={"6"}
+                                    gap={"3"}
+                                >
+                                    <Box>
+                                        <HStack gap={"2"}>
+                                            <Text fontSize={"xl"} color={"gray.500"}>
+                                                username
+                                            </Text>
+                                            <Popover
+                                                returnFocusOnClose={false}
+                                                isOpen={isOpen}
+                                                onClose={onClose}
+                                                placement="right"
+                                                closeOnBlur={false}
+                                            >
+                                                <PopoverTrigger>
+                                                    <IconButton
+                                                        aria-label="edit"
+                                                        size={"sm"}
+                                                        colorScheme={"blue"}
+                                                        variant={"outline"}
+                                                        icon={<FaEdit />}
+                                                        onClick={onEditOpen}
+                                                    />
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverCloseButton />
+                                                    <PopoverHeader>
+                                                        Change Username
+                                                    </PopoverHeader>
+                                                    <PopoverBody>
+                                                        <FormControl>
+                                                            <Input
+                                                                isInvalid={isError}
+                                                                type={"text"}
+                                                                {...registered}
+                                                                required
+                                                                onChange={(e) => {
+                                                                    registered.onChange(
+                                                                        e
+                                                                    );
+                                                                    setIsError(false);
+                                                                }}
+                                                            />
+                                                            {isError ? (
+                                                                <FormErrorMessage>
+                                                                    username을 사용할 수
+                                                                    없습니다
+                                                                </FormErrorMessage>
+                                                            ) : null}
+                                                        </FormControl>
+                                                    </PopoverBody>
+                                                    <PopoverFooter
+                                                        display={"flex"}
+                                                        justifyContent={"flex-end"}
+                                                        gap={"2"}
+                                                    >
+                                                        <Button
+                                                            colorScheme={"blue"}
+                                                            onClick={handleSubmit(
+                                                                onSubmit
+                                                            )}
+                                                            isLoading={isLoading}
+                                                        >
+                                                            Confirm
+                                                        </Button>
+                                                        <Button
+                                                            colorScheme={"blue"}
+                                                            variant={"ghost"}
+                                                            onClick={onClose}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                    </PopoverFooter>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </HStack>
+                                        <Text fontSize={"2xl"}>{data?.username}</Text>
+                                    </Box>
+                                    <Box>
                                         <Text fontSize={"xl"} color={"gray.500"}>
-                                            username
+                                            email
                                         </Text>
-                                        <Popover
-                                            returnFocusOnClose={false}
-                                            isOpen={isOpen}
-                                            onClose={onClose}
-                                            placement="right"
-                                            closeOnBlur={false}
-                                        >
-                                            <PopoverTrigger>
-                                                <IconButton
-                                                    aria-label="edit"
-                                                    size={"sm"}
-                                                    colorScheme={"blue"}
-                                                    variant={"outline"}
-                                                    icon={<FaEdit />}
-                                                    onClick={onEditOpen}
-                                                />
-                                            </PopoverTrigger>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverCloseButton />
-                                                <PopoverHeader>
-                                                    Change Username
-                                                </PopoverHeader>
-                                                <PopoverBody>
-                                                    <FormControl>
-                                                        <Input
-                                                            isInvalid={isError}
-                                                            type={"text"}
-                                                            {...registered}
-                                                            required
-                                                            onChange={(e) => {
-                                                                registered.onChange(e);
-                                                                setIsError(false);
-                                                            }}
-                                                        />
-                                                        {isError ? (
-                                                            <FormErrorMessage>
-                                                                username을 사용할 수
-                                                                없습니다
-                                                            </FormErrorMessage>
-                                                        ) : null}
-                                                    </FormControl>
-                                                </PopoverBody>
-                                                <PopoverFooter
-                                                    display={"flex"}
-                                                    justifyContent={"flex-end"}
-                                                    gap={"2"}
-                                                >
-                                                    <Button
-                                                        colorScheme={"blue"}
-                                                        onClick={handleSubmit(onSubmit)}
-                                                        isLoading={isLoading}
-                                                    >
-                                                        Confirm
-                                                    </Button>
-                                                    <Button
-                                                        colorScheme={"blue"}
-                                                        variant={"ghost"}
-                                                        onClick={onClose}
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                </PopoverFooter>
-                                            </PopoverContent>
-                                        </Popover>
+                                        <Text fontSize={"2xl"}>{data?.email}</Text>
+                                    </Box>
+                                    <Box>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            balance
+                                        </Text>
+                                        <Text fontSize={"2xl"}>302</Text>
+                                    </Box>
+                                </VStack>
+                            </Box>
+                            <Box width={"100%"}>
+                                <Text fontSize={"3xl"} textAlign={"center"}>
+                                    내 지갑
+                                </Text>
+                                <Divider />
+                                <VStack
+                                    alignItems={"start"}
+                                    width={"100%"}
+                                    paddingLeft={"8"}
+                                    marginTop={"6"}
+                                    gap={"3"}
+                                >
+                                    <Box width={"100%"}>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            public key
+                                        </Text>
+                                        <Text fontSize={"2xl"} isTruncated>
+                                            {data?.wallet.public_key}
+                                        </Text>
+                                    </Box>
+                                    <Box width={"100%"}>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            private key hash
+                                        </Text>
+                                        <Text fontSize={"2xl"} isTruncated>
+                                            {data?.wallet.private_key_hash}
+                                        </Text>
+                                    </Box>
+                                    <HStack gap={"3"}>
+                                        <Button colorScheme={"blue"}>
+                                            간편 비밀번호 설정
+                                        </Button>
+                                        <Button>지갑 관리</Button>
                                     </HStack>
-                                    <Text fontSize={"2xl"}>{data?.username}</Text>
-                                </Box>
-                                <Box>
-                                    <Text fontSize={"xl"} color={"gray.500"}>
-                                        email
-                                    </Text>
-                                    <Text fontSize={"2xl"}>{data?.email}</Text>
-                                </Box>
-                            </VStack>
+                                </VStack>
+                            </Box>
                         </VStack>
                     </HStack>
                 </VStack>
