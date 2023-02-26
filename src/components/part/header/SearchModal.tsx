@@ -1,5 +1,7 @@
 import {
     Box,
+    Divider,
+    Highlight,
     Input,
     InputGroup,
     InputLeftElement,
@@ -7,23 +9,57 @@ import {
     ModalBody,
     ModalCloseButton,
     ModalContent,
-    ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Spinner,
+    Text,
     useColorModeValue,
+    VStack,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { searchUsers } from "../../../api/server/search";
 
 interface IModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
+interface ISearchUser {
+    pk: number;
+    username: string;
+    public_key: string;
+}
+
+const debounceDelay = 500; // Delay in milliseconds
+
 export default function SearchModal({ isOpen, onClose }: IModalProps) {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
+    const [isLoading, setLoading] = useState(false);
+    const [users, setUsers] = useState<ISearchUser[]>([]);
+    const [input, setInput] = useState("");
+
+    const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(event.target.value);
+        if (event.target.value !== "") {
+            setLoading(true);
+            const data = await searchUsers(event.target.value);
+            setUsers(data.data);
+        } else {
+            setUsers([]);
+        }
+        setLoading(false);
+    };
+
+    const myOnclose = () => {
+        onClose();
+        setUsers([]);
+    };
+
     return (
         <>
-            <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
+            <Modal isOpen={isOpen} onClose={myOnclose} size={"2xl"}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
@@ -48,10 +84,60 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
                                 placeholder={"Search User.."}
                                 variant={"unstyled"}
                                 fontSize={"2xl"}
+                                onChange={onChange}
                             />
                         </InputGroup>
                     </ModalHeader>
-                    {/* <ModalBody></ModalBody> */}
+                    {users.length !== 0 || isLoading ? (
+                        <ModalBody>
+                            {!isLoading ? (
+                                <VStack width={"100%"}>
+                                    {users.map((user) => (
+                                        <Link to={`/users/@${user.pk}`}>
+                                            <Box width={"xl"} marginY={"4"}>
+                                                <Text isTruncated fontSize={"2xl"}>
+                                                    <Highlight
+                                                        query={input}
+                                                        styles={{
+                                                            backgroundColor:
+                                                                highlightColor,
+                                                            color: "white",
+                                                        }}
+                                                        children={user.username}
+                                                    />
+                                                </Text>
+                                                <Divider />
+                                                <Text isTruncated color={"gray.400"}>
+                                                    <Highlight
+                                                        query={input}
+                                                        styles={{
+                                                            backgroundColor:
+                                                                highlightColor,
+                                                            color: "white",
+                                                        }}
+                                                        children={user.public_key}
+                                                    />
+                                                </Text>
+                                            </Box>
+                                        </Link>
+                                    ))}
+                                </VStack>
+                            ) : (
+                                <Box
+                                    justifyContent={"center"}
+                                    width={"100%"}
+                                    display={"flex"}
+                                    marginY={"3"}
+                                >
+                                    <Spinner
+                                        size={"xl"}
+                                        thickness="5px"
+                                        color={highlightColor}
+                                    />
+                                </Box>
+                            )}
+                        </ModalBody>
+                    ) : null}
                 </ModalContent>
             </Modal>
         </>

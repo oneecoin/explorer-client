@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { server } from "../api/server/server";
+import Helmet from "../components/Helmet";
 
 export default function GithubConfirm() {
     const { search } = useLocation();
@@ -30,12 +31,13 @@ export default function GithubConfirm() {
     });
     return (
         <VStack justifyContent={"center"} my={40}>
+            <Helmet title="Authorizing.." />
             <Box fontSize={"6xl"}>
                 <FaGithub />
             </Box>
             <Heading>Processing..</Heading>
             <Text>잠시만 기다려 주세요</Text>
-            <Spinner size="lg" />
+            <Spinner size={"xl"} thickness="5px" />
         </VStack>
     );
 }
