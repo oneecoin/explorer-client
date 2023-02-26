@@ -16,10 +16,11 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { searchUsers } from "../../../api/server/search";
+import { debounceFunction } from "../../../lib/debouncer";
 
 interface IModalProps {
     isOpen: boolean;
@@ -40,16 +41,22 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
     const [users, setUsers] = useState<ISearchUser[]>([]);
     const [input, setInput] = useState("");
 
+    const setTimeoutSearch = useCallback(
+        debounceFunction(async (query: string) => {
+            if (query !== "") {
+                const data = await searchUsers(query);
+                setUsers(data.data);
+            } else {
+                setUsers([]);
+            }
+            setLoading(false);
+        }, debounceDelay),
+        []
+    );
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
-        if (event.target.value !== "") {
-            setLoading(true);
-            const data = await searchUsers(event.target.value);
-            setUsers(data.data);
-        } else {
-            setUsers([]);
-        }
-        setLoading(false);
+        setLoading(true);
+        setTimeoutSearch(event.target.value);
     };
 
     const myOnclose = () => {

@@ -53,6 +53,7 @@ export default function Notification() {
                             marginTop={"2"}
                             colorScheme={"blue"}
                             onClick={onDeleteAll}
+                            isDisabled={data?.length === 0 || isLoading}
                         >
                             모든 메시지 제거
                         </Button>
