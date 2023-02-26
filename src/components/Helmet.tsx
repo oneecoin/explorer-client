@@ -7,7 +7,7 @@ interface IHelmetProps {
 export default function Helmet({ title }: IHelmetProps) {
     return (
         <ReactHelmet>
-            <title>{title}</title>
+            <title>Oneecoin - {title}</title>
             <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="16x16" />
         </ReactHelmet>
     );

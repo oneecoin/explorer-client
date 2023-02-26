@@ -9,19 +9,27 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaBars, FaCoins, FaCrow } from "react-icons/fa";
+import { FaBars, FaCoins, FaCrow, FaSearch } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 import UserBar from "./UserBar";
 import { useRef } from "react";
 import UtilDrawaer from "./UtilDrawer";
+import SearchModal from "./SearchModal";
 
 export default function Header() {
     const borderColor = useColorModeValue("gray.200", "gray.600");
     const logoColor = useColorModeValue("blue.600", "blue.300");
     const headerColor = useColorModeValue("white", "gray.800");
+    const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const { toggleColorMode } = useColorMode();
     const Icon = useColorModeValue(BsSunFill, BsFillMoonFill);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const {
+        isOpen: isSearchOpen,
+        onOpen: onSearchOpen,
+        onClose: onSearchClose,
+    } = useDisclosure();
+
     const btnRef = useRef(null);
 
     return (
@@ -41,15 +49,25 @@ export default function Header() {
                 alignItems={"center"}
                 justifyContent={"space-between"}
             >
-                <HStack gap={"8"}>
+                <HStack gap={"16"}>
                     <Link to={"/"}>
                         <HStack fontSize={"4xl"} color={logoColor}>
                             <FaCrow />
-                            <Text fontSize={"3xl"} color={logoColor}>
-                                Oneecoin
-                            </Text>
+                            <Text fontSize={"3xl"}>Oneecoin</Text>
                         </HStack>
                     </Link>
+                    <Button
+                        leftIcon={<FaSearch />}
+                        color={"gray.500"}
+                        backgroundColor={boxColor}
+                        width={"80"}
+                        justifyContent={"start"}
+                        variant={"outline"}
+                        onClick={onSearchOpen}
+                    >
+                        Search User...
+                    </Button>
+                    <SearchModal isOpen={isSearchOpen} onClose={onSearchClose} />
                 </HStack>
                 <HStack>
                     <IconButton

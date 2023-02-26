@@ -40,7 +40,7 @@ export default function Home() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     return (
         <Box mt={"12"}>
-            <Helmet title="Oneecoin" />
+            <Helmet title="Home" />
             <HStack justifyContent={"center"}>
                 <Chart />
             </HStack>
@@ -229,7 +229,7 @@ export default function Home() {
                             <CardFooter justifyContent={"flex-end"} padding={"0"}>
                                 <Button
                                     colorScheme={"blue"}
-                                    variant={"link"}
+                                    variant={"ghost"}
                                     size={"xs"}
                                     marginRight={"8"}
                                     marginBottom={"4"}
@@ -269,6 +269,7 @@ export default function Home() {
                                     position={"absolute"}
                                     bottom={"6"}
                                     right={"8"}
+                                    variant={"outline"}
                                 >
                                     글 남기러 가기
                                 </Button>
