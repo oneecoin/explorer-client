@@ -30,7 +30,7 @@ export default function GithubConfirm() {
         confirmLogin();
     });
     return (
-        <VStack justifyContent={"center"} my={40}>
+        <VStack justifyContent={"center"} height={"xl"}>
             <Helmet title="Authorizing.." />
             <Box fontSize={"6xl"}>
                 <FaGithub />
