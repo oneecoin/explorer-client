@@ -37,7 +37,7 @@ const codes: string[] = [
 ];
 
 export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
-    const { isLoggedIn } = useTinyUser();
+    const { isLoggedIn, userLoading } = useTinyUser();
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const queryClient = useQueryClient();
     const [isLoading, setLoading] = useState(false);
@@ -73,35 +73,39 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                             </Box>
                         </HStack>
                         <Box height={"36"}>
-                            {isLoggedIn ? (
+                            {!userLoading ? (
                                 <>
-                                    <VStack spacing={"3"}>
-                                        <Button width={"100%"}>내 정보</Button>
-                                        <Button
-                                            width={"100%"}
-                                            variant={"ghost"}
-                                            colorScheme={"pink"}
-                                            onClick={onLogout}
-                                            isLoading={isLoading}
-                                        >
-                                            로그아웃
-                                        </Button>
-                                    </VStack>
+                                    {isLoggedIn ? (
+                                        <>
+                                            <VStack spacing={"3"}>
+                                                <Button width={"100%"}>내 정보</Button>
+                                                <Button
+                                                    width={"100%"}
+                                                    variant={"ghost"}
+                                                    colorScheme={"pink"}
+                                                    onClick={onLogout}
+                                                    isLoading={isLoading}
+                                                >
+                                                    로그아웃
+                                                </Button>
+                                            </VStack>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Text>로그인 되어있지 않습니다</Text>
+                                            <Button
+                                                width={"100%"}
+                                                marginTop={"3"}
+                                                leftIcon={<FaGithub />}
+                                                as={"a"}
+                                                href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
+                                            >
+                                                Oneecoin 시작하기
+                                            </Button>
+                                        </>
+                                    )}
                                 </>
-                            ) : (
-                                <>
-                                    <Text>로그인 되어있지 않습니다..</Text>
-                                    <Button
-                                        width={"100%"}
-                                        marginTop={"3"}
-                                        leftIcon={<FaGithub />}
-                                        as={"a"}
-                                        href="https://github.com/login/oauth/authorize?client_id=ca1e5d368fa75972f138&scope=read:user,user:email"
-                                    >
-                                        Oneecoin 시작하기
-                                    </Button>
-                                </>
-                            )}
+                            ) : null}
                         </Box>
                         <HStack fontSize={"xl"} marginBottom={"3"}>
                             <Text fontSize={"2xl"}>블록체인</Text>

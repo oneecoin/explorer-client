@@ -19,21 +19,22 @@ const refresh = async (
         if (!refreshToken) {
             localStorage.removeItem("exp");
             localStorage.removeItem("accessToken");
-        }
-        const body = {
-            refreshToken,
-        };
-
-        // 토큰 갱신 서버통신
-        const { data, status } = await server.post("/auth/refresh", body);
-        if (status !== 401) {
-            token = data.data.access;
-            exp = data.data.exp;
-            localStorage.setItem("accessToken", data.data.accessToken);
-            localStorage.setItem("exp", exp!);
         } else {
-            localStorage.removeItem("exp");
-            localStorage.removeItem("accessToken");
+            const body = {
+                refreshToken,
+            };
+
+            // 토큰 갱신 서버통신
+            const { data, status } = await server.post("/auth/refresh", body);
+            if (status !== 401) {
+                token = data.data.access;
+                exp = data.data.exp;
+                localStorage.setItem("accessToken", data.data.accessToken);
+                localStorage.setItem("exp", exp!);
+            } else {
+                localStorage.removeItem("exp");
+                localStorage.removeItem("accessToken");
+            }
         }
     }
 
