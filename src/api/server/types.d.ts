@@ -10,3 +10,10 @@ export interface IMessage {
     content: string;
     message_type: string;
 }
+
+export interface IPublicUser {
+    pk: number;
+    username: string;
+    public_key: string;
+    avatar: string;
+}

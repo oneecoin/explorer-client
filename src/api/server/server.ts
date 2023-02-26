@@ -15,7 +15,7 @@ const refresh = async (
     let token = localStorage.getItem("accessToken");
 
     // 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
-    if (moment.unix(Number(exp)).diff(moment().unix()) < 0) {
+    if (Number(exp) - moment().unix() <= 0) {
         if (!refreshToken) {
             localStorage.removeItem("exp");
             localStorage.removeItem("accessToken");

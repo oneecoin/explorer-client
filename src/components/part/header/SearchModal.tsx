@@ -100,7 +100,10 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
                             {!isLoading ? (
                                 <VStack width={"100%"}>
                                     {users.map((user) => (
-                                        <Link to={`/users/@${user.pk}`}>
+                                        <Link
+                                            to={`/users/${user.pk}`}
+                                            onClick={myOnclose}
+                                        >
                                             <Box width={"xl"} marginY={"4"}>
                                                 <Text isTruncated fontSize={"2xl"}>
                                                     <Highlight

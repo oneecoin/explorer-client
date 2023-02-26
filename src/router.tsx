@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
 import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
+import Me from "./routes/Me";
 import NotFound from "./routes/NotFound";
 import User from "./routes/User";
 
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "users/@:pk",
+                path: "users/me",
+                element: <Me />,
+            },
+            {
+                path: "users/:pk",
                 element: <User />,
             },
             {
