@@ -50,9 +50,10 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
         localStorage.removeItem("exp");
         localStorage.removeItem("accessToken");
         onClose();
-        queryClient.refetchQueries(["messages"]);
-        queryClient.refetchQueries(["tinyMe"]);
+        queryClient.refetchQueries({ queryKey: ["messages"], exact: true });
+        queryClient.refetchQueries({ queryKey: ["tinyMe"], exact: true });
         setLoading(false);
+        navigate("/");
     };
 
     const goTo = (url: string) => {

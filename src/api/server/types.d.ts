@@ -23,6 +23,11 @@ export interface IWallet {
     private_key_hash: string;
 }
 
+export interface IWalletCandidate {
+    public_key: string;
+    private_key: string;
+}
+
 export interface IMe {
     pk: number;
     email: string;
@@ -34,4 +39,8 @@ export interface IMe {
 export interface ISimplePassword {
     simple_password: string;
     private_key: string;
+}
+
+export interface IUsername {
+    username: string;
 }

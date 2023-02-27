@@ -21,8 +21,8 @@ export default function Notification() {
 
     const onDeleteAll = () => {
         server.delete("/users/me/inbox");
-        queryClient.refetchQueries(["messages"]);
-        queryClient.refetchQueries(["tinyMe"]);
+        queryClient.refetchQueries({ queryKey: ["messages"], exact: true });
+        queryClient.refetchQueries({ queryKey: ["tinyMe"], exact: true });
     };
     return (
         <>

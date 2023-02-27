@@ -20,33 +20,52 @@ import {
     SkeletonCircle,
     SkeletonText,
     Text,
+    useColorModeValue,
     useDisclosure,
     VStack,
 } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEdit } from "react-icons/fa";
+import { FaCoins, FaEdit, FaEnvelope, FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { IMe } from "../api/server/types";
+import { IBalance } from "../api/mempool/types";
+import { getBalance } from "../api/mempool/wallet";
+import { IMe, IUsername } from "../api/server/types";
 import { changeUsername, getMe } from "../api/server/user";
 import Helmet from "../components/Helmet";
 import SimplePasswordModal from "../components/SimplePasswordModal";
-
-interface IUsername {
-    username: string;
-}
+import WalletCreateModal from "../components/WalletCreateModal";
 
 export default function Me() {
-    const { data, isLoading: userLoading } = useQuery<IMe>(["users", "me"], getMe, {
+    const { data: user, isLoading: userLoading } = useQuery<IMe>(["users", "me"], getMe, {
         refetchOnWindowFocus: false,
     });
+    const [balance, setBalance] = useState(0);
+    const [balanceLoading, setBalanceLoading] = useState(true);
+    useEffect(() => {
+        // const fetchBalance = async () => {
+        //     setBalanceLoading(true);
+        //     const data = await getBalance(user!.wallet.public_key);
+        //     setBalance(data.balance);
+        //     setBalanceLoading(false);
+        // };
+        // fetchBalance();
+        setBalanceLoading(false);
+        setBalance(300);
+    }, [user]);
+    const highlightColor = useColorModeValue("blue.600", "blue.300");
     const queryClient = useQueryClient();
     const { isOpen, onClose, onOpen } = useDisclosure();
     const {
         isOpen: isSimpModalOpen,
         onClose: onSimpModalClose,
         onOpen: onSimpModalOpen,
+    } = useDisclosure();
+    const {
+        isOpen: isWalletModalOpen,
+        onClose: onWalletModalClose,
+        onOpen: onWalletModalOpen,
     } = useDisclosure();
     const { register, handleSubmit, resetField } = useForm<IUsername>();
 
@@ -63,7 +82,7 @@ export default function Me() {
         if (status === 406) {
             setIsError(true);
         } else {
-            queryClient.refetchQueries(["users", "me"]);
+            queryClient.refetchQueries({ queryKey: ["users", "me"], exact: true });
             onClose();
         }
         setIsLoading(false);
@@ -90,11 +109,11 @@ export default function Me() {
                             {userLoading ? (
                                 <SkeletonCircle width={"80"} height={"80"} />
                             ) : (
-                                <Avatar src={data?.avatar} size={"full"} />
+                                <Avatar src={user?.avatar} size={"full"} />
                             )}
                         </Box>
                         <Skeleton isLoaded={!userLoading}>
-                            <Link to={`/users/${data?.pk}`}>
+                            <Link to={`/users/${user?.pk}`}>
                                 <Button variant={"link"} colorScheme={"blue"}>
                                     공용 프로필 보기
                                 </Button>
@@ -116,9 +135,14 @@ export default function Me() {
                             >
                                 <Box>
                                     <HStack gap={"2"}>
-                                        <Text fontSize={"xl"} color={"gray.500"}>
-                                            username
-                                        </Text>
+                                        <HStack>
+                                            <Box color={highlightColor}>
+                                                <FaUserAlt />
+                                            </Box>
+                                            <Text fontSize={"xl"} color={"gray.500"}>
+                                                username
+                                            </Text>
+                                        </HStack>
                                         <Popover
                                             returnFocusOnClose={false}
                                             isOpen={isOpen}
@@ -190,29 +214,39 @@ export default function Me() {
                                             this is username hehe
                                         </Skeleton>
                                     ) : (
-                                        <Text fontSize={"2xl"}>{data?.username}</Text>
+                                        <Text fontSize={"2xl"}>{user?.username}</Text>
                                     )}
                                 </Box>
                                 <Box>
-                                    <Text fontSize={"xl"} color={"gray.500"}>
-                                        email
-                                    </Text>
+                                    <HStack>
+                                        <Box color={highlightColor}>
+                                            <FaEnvelope />
+                                        </Box>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            email
+                                        </Text>
+                                    </HStack>
                                     {userLoading ? (
                                         <Skeleton fontSize={"xl"}>
                                             this is emaileeeeeeeeeeeee
                                         </Skeleton>
                                     ) : (
-                                        <Text fontSize={"2xl"}>{data?.email}</Text>
+                                        <Text fontSize={"2xl"}>{user?.email}</Text>
                                     )}
                                 </Box>
                                 <Box>
-                                    <Text fontSize={"xl"} color={"gray.500"}>
-                                        balance
-                                    </Text>
-                                    {userLoading ? (
+                                    <HStack>
+                                        <Box color={highlightColor}>
+                                            <FaCoins />
+                                        </Box>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            balance
+                                        </Text>
+                                    </HStack>
+                                    {balanceLoading ? (
                                         <Skeleton fontSize={"xl"}>this is</Skeleton>
                                     ) : (
-                                        <Text fontSize={"2xl"}>302</Text>
+                                        <Text fontSize={"2xl"}>{balance}</Text>
                                     )}
                                 </Box>
                             </VStack>
@@ -239,7 +273,7 @@ export default function Me() {
                                         </Skeleton>
                                     ) : (
                                         <Text fontSize={"2xl"} isTruncated>
-                                            {data?.wallet.public_key}
+                                            {user?.wallet.public_key}
                                         </Text>
                                     )}
                                 </Box>
@@ -253,7 +287,7 @@ export default function Me() {
                                         </Skeleton>
                                     ) : (
                                         <Text fontSize={"2xl"} isTruncated>
-                                            {data?.wallet.private_key_hash}
+                                            {user?.wallet.private_key_hash}
                                         </Text>
                                     )}
                                 </Box>
@@ -265,12 +299,18 @@ export default function Me() {
                                         >
                                             간편 비밀번호 설정
                                         </Button>
-                                        <Button>지갑 관리</Button>
+                                        <Button onClick={onWalletModalOpen}>
+                                            지갑 관리
+                                        </Button>
                                     </HStack>
                                 </Skeleton>
                                 <SimplePasswordModal
                                     onClose={onSimpModalClose}
                                     isOpen={isSimpModalOpen}
+                                />
+                                <WalletCreateModal
+                                    onClose={onWalletModalClose}
+                                    isOpen={isWalletModalOpen}
                                 />
                             </VStack>
                         </Box>

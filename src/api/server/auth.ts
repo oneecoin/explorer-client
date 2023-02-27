@@ -10,7 +10,6 @@ async function getTinyMe() {
 export const useTinyUser = () => {
     const { isLoading, data, isError } = useQuery<ITinyMe>(["tinyMe"], getTinyMe, {
         retry: false,
-        refetchOnWindowFocus: false,
     });
     return {
         userLoading: isLoading,

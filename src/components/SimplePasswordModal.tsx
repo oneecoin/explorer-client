@@ -36,9 +36,9 @@ export default function SimplePasswordModal({ isOpen, onClose }: ISimpModalProps
 
     const onSubmit = async (form: ISimplePassword) => {
         setIsLoading(true);
-        const status = await createSimplePassword(form);
+        const valid = await createSimplePassword(form);
         setIsLoading(false);
-        if (status !== 406) {
+        if (valid) {
             myOnclose();
         } else {
             setError("private_key", { message: "", type: "value" });
