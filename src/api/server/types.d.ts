@@ -30,3 +30,8 @@ export interface IMe {
     wallet: IWallet;
     avatar: string;
 }
+
+export interface ISimplePassword {
+    simple_password: string;
+    private_key: string;
+}

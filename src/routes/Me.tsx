@@ -31,6 +31,7 @@ import { Link } from "react-router-dom";
 import { IMe } from "../api/server/types";
 import { changeUsername, getMe } from "../api/server/user";
 import Helmet from "../components/Helmet";
+import SimplePasswordModal from "../components/SimplePasswordModal";
 
 interface IUsername {
     username: string;
@@ -42,6 +43,11 @@ export default function Me() {
     });
     const queryClient = useQueryClient();
     const { isOpen, onClose, onOpen } = useDisclosure();
+    const {
+        isOpen: isSimpModalOpen,
+        onClose: onSimpModalClose,
+        onOpen: onSimpModalOpen,
+    } = useDisclosure();
     const { register, handleSubmit, resetField } = useForm<IUsername>();
 
     const registered = register("username", {
@@ -138,9 +144,8 @@ export default function Me() {
                                                     Change Username
                                                 </PopoverHeader>
                                                 <PopoverBody>
-                                                    <FormControl>
+                                                    <FormControl isInvalid={isError}>
                                                         <Input
-                                                            isInvalid={isError}
                                                             type={"text"}
                                                             {...registered}
                                                             required
@@ -240,7 +245,7 @@ export default function Me() {
                                 </Box>
                                 <Box width={"100%"}>
                                     <Text fontSize={"xl"} color={"gray.500"}>
-                                        private key hash
+                                        hashed private key
                                     </Text>
                                     {userLoading ? (
                                         <Skeleton fontSize={"xl"}>
@@ -254,12 +259,19 @@ export default function Me() {
                                 </Box>
                                 <Skeleton isLoaded={!userLoading}>
                                     <HStack gap={"3"}>
-                                        <Button colorScheme={"blue"}>
+                                        <Button
+                                            colorScheme={"blue"}
+                                            onClick={onSimpModalOpen}
+                                        >
                                             간편 비밀번호 설정
                                         </Button>
                                         <Button>지갑 관리</Button>
                                     </HStack>
                                 </Skeleton>
+                                <SimplePasswordModal
+                                    onClose={onSimpModalClose}
+                                    isOpen={isSimpModalOpen}
+                                />
                             </VStack>
                         </Box>
                     </VStack>
