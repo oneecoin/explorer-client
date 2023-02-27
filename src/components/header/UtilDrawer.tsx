@@ -23,7 +23,6 @@ import { useTinyUser } from "../../api/server/auth";
 import { server } from "../../api/server/server";
 
 interface IDrawerProps {
-    ref: React.MutableRefObject<null>;
     isOpen: boolean;
     onClose: () => void;
 }
@@ -37,7 +36,7 @@ const codes: string[] = [
     "println('Oneecoin')",
 ];
 
-export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
+export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
     const { isLoggedIn, userLoading } = useTinyUser();
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const queryClient = useQueryClient();
@@ -62,7 +61,7 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
     };
 
     return (
-        <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={ref}>
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
@@ -150,7 +149,7 @@ export default function UtilDrawaer({ ref, isOpen, onClose }: IDrawerProps) {
                             <Button
                                 width={"100%"}
                                 onClick={() => {
-                                    goTo("/simple=chain");
+                                    goTo("/simple-chain");
                                 }}
                             >
                                 블록체인 체험하기

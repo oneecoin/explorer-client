@@ -88,7 +88,7 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
                             />
                             <Input
                                 type={"text"}
-                                placeholder={"Search User.."}
+                                placeholder={"var searchBy = 'username' || 'public key'"}
                                 variant={"unstyled"}
                                 fontSize={"2xl"}
                                 onChange={onChange}

@@ -20,6 +20,8 @@ import {
     Text,
     Box,
     VStack,
+    SkeletonCircle,
+    Skeleton,
 } from "@chakra-ui/react";
 import Notification from "./Notification";
 import { useTinyUser } from "../../api/server/auth";
@@ -83,7 +85,12 @@ export default function UserBar() {
                         </HStack>
                     </>
                 )
-            ) : null}
+            ) : (
+                <HStack paddingRight={"6"}>
+                    <SkeletonCircle />
+                    <Skeleton>usernameitis</Skeleton>
+                </HStack>
+            )}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>

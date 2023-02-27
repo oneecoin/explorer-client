@@ -30,8 +30,6 @@ export default function Header() {
         onClose: onSearchClose,
     } = useDisclosure();
 
-    const btnRef = useRef(null);
-
     return (
         <Box
             borderBottom={"1px"}
@@ -88,11 +86,10 @@ export default function Header() {
                     <IconButton
                         aria-label="bar"
                         icon={<FaBars />}
-                        ref={btnRef}
                         colorScheme={"blue"}
                         onClick={onOpen}
                     />
-                    <UtilDrawaer isOpen={isOpen} onClose={onClose} ref={btnRef} />
+                    <UtilDrawaer isOpen={isOpen} onClose={onClose} />
                 </HStack>
             </HStack>
         </Box>
