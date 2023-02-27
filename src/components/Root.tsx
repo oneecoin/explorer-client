@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet } from "react-router-dom";
-import Footer from "./part/Footer";
-import Header from "./part/header/Header";
+import Footer from "./parts/Footer";
+import Header from "./parts/header/Header";
 
 export default function Root() {
     return (

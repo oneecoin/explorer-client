@@ -16,6 +16,9 @@ import {
     PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
     Text,
     useDisclosure,
     VStack,
@@ -67,170 +70,210 @@ export default function Me() {
 
     return (
         <>
-            {userLoading ? null : (
-                <VStack>
-                    <Helmet title={`My Page`} />
-                    <HStack
-                        width={"80%"}
-                        marginX={"auto"}
-                        justifyContent={"space-between"}
-                        alignItems={"start"}
-                        marginTop={"16"}
-                    >
-                        <VStack width={1 / 3} gap={"6"}>
-                            <Box width={"80"}>
+            <VStack gap={"32"}>
+                <Helmet title={`My Page`} />
+                <HStack
+                    width={"80%"}
+                    marginX={"auto"}
+                    justifyContent={"space-between"}
+                    alignItems={"start"}
+                    marginTop={"16"}
+                >
+                    <VStack width={1 / 3} gap={"6"}>
+                        <Box width={"80"}>
+                            {userLoading ? (
+                                <SkeletonCircle width={"80"} height={"80"} />
+                            ) : (
                                 <Avatar src={data?.avatar} size={"full"} />
-                            </Box>
+                            )}
+                        </Box>
+                        <Skeleton isLoaded={!userLoading}>
                             <Link to={`/users/${data?.pk}`}>
                                 <Button variant={"link"} colorScheme={"blue"}>
                                     공용 프로필 보기
                                 </Button>
                             </Link>
-                        </VStack>
-                        <VStack width={2 / 3} paddingX={"5"} gap={"16"}>
-                            <Box width={"100%"}>
-                                <Text fontSize={"3xl"} textAlign={"center"}>
-                                    내 정보
-                                </Text>
-                                <Divider />
-                                <VStack
-                                    alignItems={"start"}
-                                    width={"100%"}
-                                    paddingLeft={"8"}
-                                    marginTop={"6"}
-                                    gap={"3"}
-                                >
-                                    <Box>
-                                        <HStack gap={"2"}>
-                                            <Text fontSize={"xl"} color={"gray.500"}>
-                                                username
-                                            </Text>
-                                            <Popover
-                                                returnFocusOnClose={false}
-                                                isOpen={isOpen}
-                                                onClose={onClose}
-                                                placement="right"
-                                                closeOnBlur={false}
-                                            >
-                                                <PopoverTrigger>
-                                                    <IconButton
-                                                        aria-label="edit"
-                                                        size={"sm"}
+                        </Skeleton>
+                    </VStack>
+                    <VStack width={2 / 3} paddingX={"5"} gap={"16"}>
+                        <Box width={"100%"}>
+                            <Text fontSize={"3xl"} textAlign={"center"}>
+                                내 정보
+                            </Text>
+                            <Divider />
+                            <VStack
+                                alignItems={"start"}
+                                width={"100%"}
+                                paddingLeft={"8"}
+                                marginTop={"6"}
+                                gap={"3"}
+                            >
+                                <Box>
+                                    <HStack gap={"2"}>
+                                        <Text fontSize={"xl"} color={"gray.500"}>
+                                            username
+                                        </Text>
+                                        <Popover
+                                            returnFocusOnClose={false}
+                                            isOpen={isOpen}
+                                            onClose={onClose}
+                                            placement="right"
+                                            closeOnBlur={false}
+                                        >
+                                            <PopoverTrigger>
+                                                <IconButton
+                                                    aria-label="edit"
+                                                    size={"sm"}
+                                                    colorScheme={"blue"}
+                                                    variant={"outline"}
+                                                    icon={<FaEdit />}
+                                                    onClick={onEditOpen}
+                                                    isLoading={userLoading}
+                                                />
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverCloseButton />
+                                                <PopoverHeader>
+                                                    Change Username
+                                                </PopoverHeader>
+                                                <PopoverBody>
+                                                    <FormControl>
+                                                        <Input
+                                                            isInvalid={isError}
+                                                            type={"text"}
+                                                            {...registered}
+                                                            required
+                                                            onChange={(e) => {
+                                                                registered.onChange(e);
+                                                                setIsError(false);
+                                                            }}
+                                                        />
+                                                        {isError ? (
+                                                            <FormErrorMessage>
+                                                                username을 사용할 수
+                                                                없습니다
+                                                            </FormErrorMessage>
+                                                        ) : null}
+                                                    </FormControl>
+                                                </PopoverBody>
+                                                <PopoverFooter
+                                                    display={"flex"}
+                                                    justifyContent={"flex-end"}
+                                                    gap={"2"}
+                                                >
+                                                    <Button
                                                         colorScheme={"blue"}
-                                                        variant={"outline"}
-                                                        icon={<FaEdit />}
-                                                        onClick={onEditOpen}
-                                                    />
-                                                </PopoverTrigger>
-                                                <PopoverContent>
-                                                    <PopoverArrow />
-                                                    <PopoverCloseButton />
-                                                    <PopoverHeader>
-                                                        Change Username
-                                                    </PopoverHeader>
-                                                    <PopoverBody>
-                                                        <FormControl>
-                                                            <Input
-                                                                isInvalid={isError}
-                                                                type={"text"}
-                                                                {...registered}
-                                                                required
-                                                                onChange={(e) => {
-                                                                    registered.onChange(
-                                                                        e
-                                                                    );
-                                                                    setIsError(false);
-                                                                }}
-                                                            />
-                                                            {isError ? (
-                                                                <FormErrorMessage>
-                                                                    username을 사용할 수
-                                                                    없습니다
-                                                                </FormErrorMessage>
-                                                            ) : null}
-                                                        </FormControl>
-                                                    </PopoverBody>
-                                                    <PopoverFooter
-                                                        display={"flex"}
-                                                        justifyContent={"flex-end"}
-                                                        gap={"2"}
+                                                        onClick={handleSubmit(onSubmit)}
+                                                        isLoading={isLoading}
                                                     >
-                                                        <Button
-                                                            colorScheme={"blue"}
-                                                            onClick={handleSubmit(
-                                                                onSubmit
-                                                            )}
-                                                            isLoading={isLoading}
-                                                        >
-                                                            Confirm
-                                                        </Button>
-                                                        <Button
-                                                            colorScheme={"blue"}
-                                                            variant={"ghost"}
-                                                            onClick={onClose}
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                    </PopoverFooter>
-                                                </PopoverContent>
-                                            </Popover>
-                                        </HStack>
+                                                        Confirm
+                                                    </Button>
+                                                    <Button
+                                                        colorScheme={"blue"}
+                                                        variant={"ghost"}
+                                                        onClick={onClose}
+                                                    >
+                                                        Cancel
+                                                    </Button>
+                                                </PopoverFooter>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </HStack>
+                                    {userLoading ? (
+                                        <Skeleton fontSize={"xl"}>
+                                            this is username hehe
+                                        </Skeleton>
+                                    ) : (
                                         <Text fontSize={"2xl"}>{data?.username}</Text>
-                                    </Box>
-                                    <Box>
-                                        <Text fontSize={"xl"} color={"gray.500"}>
-                                            email
-                                        </Text>
+                                    )}
+                                </Box>
+                                <Box>
+                                    <Text fontSize={"xl"} color={"gray.500"}>
+                                        email
+                                    </Text>
+                                    {userLoading ? (
+                                        <Skeleton fontSize={"xl"}>
+                                            this is emaileeeeeeeeeeeee
+                                        </Skeleton>
+                                    ) : (
                                         <Text fontSize={"2xl"}>{data?.email}</Text>
-                                    </Box>
-                                    <Box>
-                                        <Text fontSize={"xl"} color={"gray.500"}>
-                                            balance
-                                        </Text>
+                                    )}
+                                </Box>
+                                <Box>
+                                    <Text fontSize={"xl"} color={"gray.500"}>
+                                        balance
+                                    </Text>
+                                    {userLoading ? (
+                                        <Skeleton fontSize={"xl"}>this is</Skeleton>
+                                    ) : (
                                         <Text fontSize={"2xl"}>302</Text>
-                                    </Box>
-                                </VStack>
-                            </Box>
-                            <Box width={"100%"}>
-                                <Text fontSize={"3xl"} textAlign={"center"}>
-                                    내 지갑
-                                </Text>
-                                <Divider />
-                                <VStack
-                                    alignItems={"start"}
-                                    width={"100%"}
-                                    paddingLeft={"8"}
-                                    marginTop={"6"}
-                                    gap={"3"}
-                                >
-                                    <Box width={"100%"}>
-                                        <Text fontSize={"xl"} color={"gray.500"}>
-                                            public key
-                                        </Text>
+                                    )}
+                                </Box>
+                            </VStack>
+                        </Box>
+                        <Box width={"100%"}>
+                            <Text fontSize={"3xl"} textAlign={"center"}>
+                                지갑
+                            </Text>
+                            <Divider />
+                            <VStack
+                                alignItems={"start"}
+                                width={"100%"}
+                                paddingLeft={"8"}
+                                marginTop={"6"}
+                                gap={"3"}
+                            >
+                                <Box width={"100%"}>
+                                    <Text fontSize={"xl"} color={"gray.500"}>
+                                        public key
+                                    </Text>
+                                    {userLoading ? (
+                                        <Skeleton fontSize={"xl"}>
+                                            this is publickey this is freaking longlong
+                                        </Skeleton>
+                                    ) : (
                                         <Text fontSize={"2xl"} isTruncated>
                                             {data?.wallet.public_key}
                                         </Text>
-                                    </Box>
-                                    <Box width={"100%"}>
-                                        <Text fontSize={"xl"} color={"gray.500"}>
-                                            private key hash
-                                        </Text>
+                                    )}
+                                </Box>
+                                <Box width={"100%"}>
+                                    <Text fontSize={"xl"} color={"gray.500"}>
+                                        private key hash
+                                    </Text>
+                                    {userLoading ? (
+                                        <Skeleton fontSize={"xl"}>
+                                            this is publickey this is freaking longlong
+                                        </Skeleton>
+                                    ) : (
                                         <Text fontSize={"2xl"} isTruncated>
                                             {data?.wallet.private_key_hash}
                                         </Text>
-                                    </Box>
+                                    )}
+                                </Box>
+                                <Skeleton isLoaded={!userLoading}>
                                     <HStack gap={"3"}>
                                         <Button colorScheme={"blue"}>
                                             간편 비밀번호 설정
                                         </Button>
                                         <Button>지갑 관리</Button>
                                     </HStack>
-                                </VStack>
-                            </Box>
-                        </VStack>
-                    </HStack>
-                </VStack>
-            )}
+                                </Skeleton>
+                            </VStack>
+                        </Box>
+                    </VStack>
+                </HStack>
+                <Box width={"80%"}>
+                    <VStack>
+                        <Skeleton isLoaded={!userLoading}>
+                            <Button colorScheme={"blue"} variant={"outline"} size={"lg"}>
+                                거래 내역 보기
+                            </Button>
+                        </Skeleton>
+                    </VStack>
+                </Box>
+            </VStack>
         </>
     );
 }
