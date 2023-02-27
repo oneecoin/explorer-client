@@ -19,8 +19,8 @@ import React, { useState } from "react";
 import { FaCoins, FaGithub, FaUser } from "react-icons/fa";
 import { GoDatabase, GoRadioTower } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
-import { useTinyUser } from "../../../api/server/auth";
-import { server } from "../../../api/server/server";
+import { useTinyUser } from "../../api/server/auth";
+import { server } from "../../api/server/server";
 
 interface IDrawerProps {
     ref: React.MutableRefObject<null>;

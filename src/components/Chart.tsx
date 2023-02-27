@@ -16,7 +16,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
-import { getTransactionCount } from "../../api/server/transaction";
+import { getTransactionCount } from "../api/server/transaction";
 
 interface ITransactionCount {
     date: string;

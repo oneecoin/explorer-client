@@ -19,8 +19,8 @@ import {
 import React, { useCallback, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { searchUsers } from "../../../api/server/search";
-import { debounceFunction } from "../../../lib/debouncer";
+import { searchUsers } from "../../api/server/search";
+import { debounceFunction } from "../../lib/debouncer";
 
 interface IModalProps {
     isOpen: boolean;

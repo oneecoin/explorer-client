@@ -9,9 +9,9 @@ import {
     Spinner,
 } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getMessages } from "../../../api/server/inbox";
-import { server } from "../../../api/server/server";
-import { IMessage } from "../../../api/server/types";
+import { getMessages } from "../../api/server/inbox";
+import { server } from "../../api/server/server";
+import { IMessage } from "../../api/server/types";
 
 export default function Notification() {
     const { isLoading, data } = useQuery<IMessage[]>(["messages"], getMessages, {

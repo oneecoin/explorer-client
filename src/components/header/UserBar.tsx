@@ -22,7 +22,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import Notification from "./Notification";
-import { useTinyUser } from "../../../api/server/auth";
+import { useTinyUser } from "../../api/server/auth";
 import { FaBell, FaGithub } from "react-icons/fa";
 
 export default function UserBar() {

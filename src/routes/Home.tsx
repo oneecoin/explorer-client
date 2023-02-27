@@ -33,7 +33,7 @@ import {
 import { FaRegHdd } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Helmet from "../components/Helmet";
-import Chart from "../components/parts/Chart";
+import Chart from "../components/Chart";
 
 export default function Home() {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
