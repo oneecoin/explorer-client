@@ -45,6 +45,7 @@ export default function WalletCreateModal({ isOpen, onClose }: IWalletModalProps
         setIsLoading(false);
         if (valid) {
             queryClient.refetchQueries({ queryKey: ["users", "me"], exact: true });
+            queryClient.refetchQueries({ queryKey: ["tinyMe"], exact: true });
             myOnclose();
         } else {
             setError("root", { message: "", type: "value" });

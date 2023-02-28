@@ -22,14 +22,31 @@ import {
     VStack,
     SkeletonCircle,
     Skeleton,
+    Tooltip,
 } from "@chakra-ui/react";
 import Notification from "./Notification";
 import { useTinyUser } from "../../api/server/auth";
 import { FaBell, FaGithub } from "react-icons/fa";
+import { useCallback, useState } from "react";
+import { debounceFunction } from "../../lib/debouncer";
 
 export default function UserBar() {
     const { isLoggedIn, userLoading, user } = useTinyUser();
     const { isOpen, onClose, onOpen } = useDisclosure();
+    const [isCopied, setIsCopied] = useState(false);
+
+    const setTimeoutCopy = useCallback(
+        debounceFunction(() => {
+            setIsCopied(false);
+        }, 1500),
+        []
+    );
+
+    const onAvatarClick = () => {
+        setIsCopied(true);
+        navigator.clipboard.writeText(user!.public_key);
+        setTimeoutCopy(null);
+    };
 
     return (
         <>
@@ -41,7 +58,18 @@ export default function UserBar() {
                 ) : (
                     <>
                         <HStack paddingRight={"6"}>
-                            <Avatar size={"sm"} src={user?.avatar} />
+                            <Tooltip
+                                hasArrow
+                                label={isCopied ? "복사됨" : user?.public_key}
+                                closeOnClick={false}
+                            >
+                                <Avatar
+                                    size={"sm"}
+                                    src={user?.avatar}
+                                    onClick={onAvatarClick}
+                                    cursor={"pointer"}
+                                />
+                            </Tooltip>
                             <Text>{user?.username}</Text>
                             <Popover>
                                 <PopoverTrigger>

@@ -3,6 +3,7 @@ export interface ITinyMe {
     username: string;
     message_count: number;
     avatar: string;
+    public_key: string;
 }
 
 export interface IMessage {

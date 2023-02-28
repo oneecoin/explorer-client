@@ -17,10 +17,10 @@ import {
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getSummary } from "../api/mempool/simple-chain";
+import { createSimpleChainBlock, getSummary } from "../api/mempool/simple-chain";
 import { ISimpleChainCreateBlock, ISimpleChainSummary } from "../api/mempool/types";
 import Helmet from "../components/Helmet";
 import { hashBlock } from "../lib/hash-block";
@@ -33,6 +33,7 @@ export default function SimpleChain() {
         setValue,
         getValues,
         trigger,
+        reset,
         formState: { isValid, errors },
     } = useForm<ISimpleChainCreateBlock>({
         mode: "onChange",
@@ -50,6 +51,9 @@ export default function SimpleChain() {
     });
     const [isIncreasing, setIsIncreasing] = useState(false);
     const [myNonce, setMyNonce] = useState(0);
+    const [isMutating, setIsMutating] = useState(false);
+    const [errText, setErrText] = useState("");
+    const queryClient = useQueryClient();
     const { data: summary, isLoading: summaryLoading } = useQuery<ISimpleChainSummary>(
         ["simple-chain"],
         getSummary
@@ -65,11 +69,34 @@ export default function SimpleChain() {
     const onInputChange = () => {
         const { block } = getValues();
         setValue("block.hash", hashBlock(block), { shouldValidate: true });
+        setErrText("");
     };
     useEffect(onInputChange, []);
 
     const onAutoIncrement = async () => {
         setIsIncreasing(true);
+    };
+
+    const onSubmit = async (form: ISimpleChainCreateBlock) => {
+        setIsMutating(true);
+        const status = await createSimpleChainBlock(form);
+        switch (status) {
+            case "invalid":
+                setErrText("블록 또는 key pair가 유효하지 않습니다");
+                break;
+            case "duplicate":
+                setErrText("이미 이 public key로 블록을 만들었습니다");
+                break;
+            case "ok":
+                reset();
+                queryClient.refetchQueries({
+                    queryKey: ["simple-chain"],
+                    exact: true,
+                });
+                onInputChange();
+                break;
+        }
+        setIsMutating(false);
     };
 
     useEffect(() => {
@@ -78,7 +105,6 @@ export default function SimpleChain() {
             if (hash.startsWith("00")) {
                 setIsIncreasing(false);
                 trigger();
-                console.log(errors);
             } else {
                 setMyNonce(nonce + 1);
                 setValue("block.nonce", nonce + 1);
@@ -158,24 +184,31 @@ export default function SimpleChain() {
                                 </NumberInputStepper>
                             </NumberInput>
                         </FormControl>
-                        <Box width={"100%"} paddingTop={"4"}>
-                            <Button
-                                colorScheme={"blue"}
-                                onClick={onAutoIncrement}
-                                isDisabled={isIncreasing}
-                            >
-                                Auto Increment
-                            </Button>
-                        </Box>
-                        <Box width={"100%"} paddingTop={"3"}>
-                            <Button
-                                colorScheme={"blue"}
-                                variant={"outline"}
-                                isDisabled={!isValid}
-                            >
-                                Add Block
-                            </Button>
-                        </Box>
+                        <HStack paddingTop={"5"} width={"100%"}>
+                            <Box>
+                                <Button
+                                    colorScheme={"blue"}
+                                    variant={"outline"}
+                                    isDisabled={!isValid}
+                                    onClick={handleSubmit(onSubmit)}
+                                    isLoading={isMutating}
+                                >
+                                    Add Block
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button
+                                    colorScheme={"blue"}
+                                    onClick={onAutoIncrement}
+                                    isDisabled={isIncreasing}
+                                >
+                                    Auto Increment
+                                </Button>
+                            </Box>
+                        </HStack>
+                        <Text paddingTop={"3"} fontSize={"md"} color={"red.300"}>
+                            {errText !== "" ? errText : null}
+                        </Text>
                     </VStack>
                 </Box>
                 <Box>
@@ -264,7 +297,7 @@ export default function SimpleChain() {
                                     </FormLabel>
                                 </Tooltip>
                                 <Textarea
-                                    fontSize={"md"}
+                                    fontSize={"xs"}
                                     resize={"none"}
                                     overflow={"hidden"}
                                     maxLength={242}
