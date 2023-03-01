@@ -34,3 +34,43 @@ export interface ISimpleChainCreateBlock {
     privateKey: string;
     block: ISimpleChainBlock;
 }
+
+export interface IPeersCount {
+    count: number;
+}
+
+export interface ITransactionListElem {
+    txID: string;
+    isProccessing: boolean;
+    from: string;
+    to: string;
+    amount: number;
+}
+
+interface TransactionInput {
+    blockHash: string;
+    txId: string;
+    index: number;
+    signature: string;
+}
+
+interface TransactionInputs {
+    v: TransactionInput[];
+    from: string;
+}
+
+interface TransactionOutput {
+    publicKey: string;
+    amount: number;
+}
+
+export interface Transaction {
+    id: string;
+    timestamp: number;
+    txIns: TransactionInputs;
+    txOuts: TransactionOutput[];
+}
+export interface ITransactionRes {
+    isProcessing: boolean;
+    tx: Transaction;
+}

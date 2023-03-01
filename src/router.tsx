@@ -5,6 +5,7 @@ import Home from "./routes/Home";
 import Me from "./routes/Me";
 import NotFound from "./routes/NotFound";
 import SimpleChain from "./routes/SimpleChain";
+import Transaction from "./routes/Transaction";
 import User from "./routes/User";
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "users/:pk",
                 element: <User />,
+            },
+            {
+                path: "transactions/:id",
+                element: <Transaction />,
             },
             {
                 path: "auth/github/confirm",

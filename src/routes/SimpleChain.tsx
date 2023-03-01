@@ -18,6 +18,7 @@ import { getSimpleChainBlocks } from "../api/mempool/simple-chain";
 import { ISimpleChainBlocks } from "../api/mempool/types";
 import Helmet from "../components/Helmet";
 import SimpleChainForm from "../components/SimpleChainForm";
+import { formatTime } from "../lib/format-time";
 
 export default function SimpleChain() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
@@ -65,12 +66,10 @@ export default function SimpleChain() {
                                                 paddingRight={"3"}
                                             >
                                                 <Text fontSize={"4xl"}>
-                                                    Block {block.height}
+                                                    Block #{block.height}
                                                 </Text>
                                                 <Text color={"gray.500"}>
-                                                    {moment
-                                                        .unix(block.created)
-                                                        .format("YYYY-MM-DD")}
+                                                    {formatTime(block.created)}
                                                 </Text>
                                             </HStack>
                                             <Divider />

@@ -1,6 +1,5 @@
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import {
-    Badge,
     Box,
     Button,
     Card,
@@ -9,7 +8,6 @@ import {
     CardHeader,
     Divider,
     HStack,
-    Link,
     ListItem,
     OrderedList,
     Stat,
@@ -17,16 +15,8 @@ import {
     StatHelpText,
     StatLabel,
     StatNumber,
-    Table,
-    TableCaption,
-    TableContainer,
-    Tbody,
-    Td,
     Text,
-    Th,
-    Thead,
     Tooltip,
-    Tr,
     useColorModeValue,
     VStack,
 } from "@chakra-ui/react";
@@ -34,98 +24,25 @@ import { FaRegHdd } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Helmet from "../components/Helmet";
 import Chart from "../components/Chart";
+import MempoolTable from "../components/MempoolTable";
+import { useQuery } from "@tanstack/react-query";
+import { IPeersCount } from "../api/mempool/types";
+import { getPeersCount } from "../api/mempool/mempool";
 
 export default function Home() {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
+    const { isLoading: peersLoading, data: peers } = useQuery<IPeersCount>(
+        ["peers-count"],
+        getPeersCount
+    );
     return (
         <Box mt={"12"}>
             <Helmet title="Home" />
             <HStack justifyContent={"center"}>
                 <Chart />
             </HStack>
-            <Box marginTop={"24"} marginX={"8"}>
-                <HStack fontSize={"2xl"}>
-                    <Text fontWeight={"medium"} fontFamily={"Raleway"}>
-                        Mempool에 올라간 거래 내역
-                    </Text>
-                    <Tooltip label="블록체인에 추가되지 않은 거래들">
-                        <InfoOutlineIcon color={"gray.500"} fontSize={"md"} />
-                    </Tooltip>
-                </HStack>
-
-                <Divider marginTop={"4"} />
-                <TableContainer marginTop={"4"}>
-                    <Table variant={"striped"} size={"lg"}>
-                        <Thead>
-                            <Tr>
-                                <Th>ID</Th>
-                                <Th>from</Th>
-                                <Th>to</Th>
-                                <Th>amount</Th>
-                                <Th>status</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td isTruncated maxWidth={"40"}>
-                                    <Link
-                                        as={ReactRouterLink}
-                                        to={"/transactions/ID"}
-                                        color={highlightColor}
-                                    >
-                                        13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                    </Link>
-                                </Td>
-                                <Td isTruncated maxWidth={"40"}>
-                                    13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                </Td>
-                                <Td isTruncated maxWidth={"40"}>
-                                    13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                </Td>
-                                <Td isTruncated isNumeric maxWidth={"8"}>
-                                    30
-                                </Td>
-                                <Td maxWidth={"12"}>
-                                    <Badge
-                                        colorScheme={"green"}
-                                        variant={"solid"}
-                                        fontSize={"sm"}
-                                    >
-                                        processing
-                                    </Badge>
-                                </Td>
-                            </Tr>
-                            <Tr>
-                                <Td isTruncated maxWidth={"40"}>
-                                    <Link
-                                        as={ReactRouterLink}
-                                        to={"/transactions/ID"}
-                                        color={highlightColor}
-                                    >
-                                        13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                    </Link>
-                                </Td>
-                                <Td isTruncated maxWidth={"40"}>
-                                    13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                </Td>
-                                <Td isTruncated maxWidth={"40"}>
-                                    13390be6f2805a24070a0eb890008a64dfae722911f7bceb466925652d73315a14a195f336d954644b2c2548a478582c3584ea52afbe992b163733fec374ea8e
-                                </Td>
-                                <Td isTruncated isNumeric maxWidth={"8"}>
-                                    30
-                                </Td>
-                                <Td maxWidth={"12"}>
-                                    <Badge variant={"solid"}>waiting</Badge>
-                                </Td>
-                            </Tr>
-                        </Tbody>
-                        <TableCaption color={"gray.500"}>
-                            모든 거래는 검증되기 전이므로 유효하지 않을 수 있습니다
-                        </TableCaption>
-                    </Table>
-                </TableContainer>
-            </Box>
+            <MempoolTable />
             <Box marginTop={"24"} marginX={"8"}>
                 <Text fontWeight={"medium"} fontFamily={"Raleway"} fontSize={"2xl"}>
                     Blockchain
@@ -230,7 +147,7 @@ export default function Home() {
                                     <Stat>
                                         <StatLabel>Nodes</StatLabel>
                                         <StatNumber fontFamily={"sans-serif"}>
-                                            0
+                                            {peersLoading ? 0 : peers?.count}
                                         </StatNumber>
                                         <StatHelpText>연결된 노드 수</StatHelpText>
                                     </Stat>
