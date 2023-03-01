@@ -21,3 +21,8 @@ export const createSimpleChainBlock = async (
         return "invalid";
     }
 };
+
+export const getSimpleChainBlocks = async () => {
+    const res = await mempool.get("/example-chain");
+    return res.data;
+};

@@ -27,7 +27,7 @@ export interface ISimpleChainBlockWithCreated extends ISimpleChainBlock {
 
 export interface ISimpleChainBlocks {
     count: number;
-    blocks: ISimpleChainBlock[];
+    blocks: ISimpleChainBlockWithCreated[];
 }
 
 export interface ISimpleChainCreateBlock {
