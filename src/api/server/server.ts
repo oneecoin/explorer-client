@@ -3,7 +3,7 @@ import Cookie from "js-cookie";
 import moment from "moment";
 
 export const server = axios.create({
-    baseURL: "https://oneecoin-explorer-server.onrender.com",
+    baseURL: "https://wallet.oneecoin.site",
     withCredentials: true,
 });
 

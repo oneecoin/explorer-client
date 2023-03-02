@@ -74,3 +74,10 @@ export interface ITransactionRes {
     isProcessing: boolean;
     tx: Transaction;
 }
+
+export interface IBlockSummary {
+    hash: string;
+    height: number;
+    timestamp: number;
+    transactionsCount: number;
+}

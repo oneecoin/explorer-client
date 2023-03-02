@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
+import Blocks from "./routes/Blocks";
 import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
 import Me from "./routes/Me";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
             {
                 path: "simple-chain",
                 element: <SimpleChain />,
+            },
+            {
+                path: "blocks",
+                element: <Blocks />,
             },
             {
                 path: "users/me",
