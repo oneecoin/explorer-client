@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const mempool = axios.create({
-    baseURL: "https://oneecoin-mempool-manager.onrender.com",
+    baseURL: "https://mempool.oneecoin.site",
 });
 
 export const getPeersCount = async () => {
