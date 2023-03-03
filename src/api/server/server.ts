@@ -46,7 +46,7 @@ const refresh = async (
 };
 
 const refreshErrorHandle = (err: any) => {
-    Cookie.remove("refresh");
+    // Cookie.remove("refresh");
 };
 
 server.interceptors.request.use(refresh, refreshErrorHandle);
