@@ -7,6 +7,11 @@ export const createWallet = async (): Promise<IWalletCreated> => {
 };
 
 export const getBalance = async (publicKey: string): Promise<IBalance> => {
-    const res = await mempool.get("/", { params: publicKey });
+    const res = await mempool.get(`/wallets/${publicKey}/balance`);
+    return res.data;
+};
+
+export const getMyTransactions = async (publicKey: string): Promise<IBalance> => {
+    const res = await mempool.get(`/wallets/${publicKey}`);
     return res.data;
 };

@@ -64,7 +64,7 @@ interface TransactionOutput {
     amount: number;
 }
 
-export interface Transaction {
+export interface ITransaction {
     id: string;
     timestamp: number;
     txIns: TransactionInputs;
@@ -72,10 +72,30 @@ export interface Transaction {
 }
 export interface ITransactionRes {
     isProcessing: boolean;
-    tx: Transaction;
+    tx: ITransaction;
 }
 
 export interface IBlockSummary {
+    hash: string;
+    height: number;
+    timestamp: number;
+    transactionsCount: number;
+}
+
+export interface IBalance {
+    balance: number;
+}
+
+export interface IBlock {
+    hash: string;
+    prevHash: string;
+    height: number;
+    nonce: number;
+    timestamp: number;
+    transactions: ITransaction[];
+}
+
+export interface IBlockListElem {
     hash: string;
     height: number;
     timestamp: number;

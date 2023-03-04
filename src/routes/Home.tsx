@@ -26,8 +26,9 @@ import Helmet from "../components/Helmet";
 import Chart from "../components/Chart";
 import MempoolTable from "../components/MempoolTable";
 import { useQuery } from "@tanstack/react-query";
-import { IPeersCount } from "../api/mempool/types";
+import { IBlock, IPeersCount } from "../api/mempool/types";
 import { getPeersCount } from "../api/mempool/mempool";
+import { getLatestBlock } from "../api/mempool/blocks";
 
 export default function Home() {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
@@ -35,6 +36,11 @@ export default function Home() {
     const { isLoading: peersLoading, data: peers } = useQuery<IPeersCount>(
         ["peers-count"],
         getPeersCount
+    );
+
+    const { data: latestBlock, isLoading: blockLoading } = useQuery<IBlock>(
+        ["latest-block"],
+        getLatestBlock
     );
     return (
         <Box mt={"12"}>
@@ -61,13 +67,15 @@ export default function Home() {
                             <StatGroup>
                                 <Stat>
                                     <StatLabel>Height</StatLabel>
-                                    <StatNumber fontFamily={"sans-serif"}>81</StatNumber>
+                                    <StatNumber fontFamily={"sans-serif"}>
+                                        {blockLoading ? 0 : latestBlock?.height}
+                                    </StatNumber>
                                     <StatHelpText>블록의 높이 (순서)</StatHelpText>
                                 </Stat>
                                 <Stat>
                                     <StatLabel>Nonce</StatLabel>
                                     <StatNumber fontFamily={"sans-serif"}>
-                                        3512
+                                        {blockLoading ? 0 : latestBlock?.nonce}
                                     </StatNumber>
                                     <StatHelpText>hash하기 위한 숫자</StatHelpText>
                                 </Stat>
@@ -75,14 +83,14 @@ export default function Home() {
                             <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
-                                    aefaelkjh2131l5kjhflauiehf3aeflkjfhelfkjahwelfkjeahflwehflaekjfh
+                                    {blockLoading ? "null" : latestBlock?.hash}
                                 </StatNumber>
                                 <StatHelpText>블록의 해시값</StatHelpText>
                             </Stat>
                             <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Previous Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
-                                    aefaelkjh2131l5kjhflauiehf3aeflkjfhelfkjahwelfkjeahflwehflaekjfh
+                                    {blockLoading ? "null" : latestBlock?.prevHash}
                                 </StatNumber>
                                 <StatHelpText>블록의 이전 해시값</StatHelpText>
                             </Stat>
@@ -96,14 +104,18 @@ export default function Home() {
                             >
                                 모든 블록 보기
                             </Button>
-                            <Button
-                                colorScheme={"blue"}
-                                variant={"ghost"}
-                                as={ReactRouterLink}
-                                to={"/blocks/?"}
-                            >
-                                상세 정보
-                            </Button>
+                            {blockLoading ? null : (
+                                <>
+                                    <Button
+                                        colorScheme={"blue"}
+                                        variant={"ghost"}
+                                        as={ReactRouterLink}
+                                        to={`/blocks/${latestBlock?.hash}`}
+                                    >
+                                        상세 정보
+                                    </Button>
+                                </>
+                            )}
                         </CardFooter>
                     </Card>
                     <VStack>
@@ -133,7 +145,7 @@ export default function Home() {
                                     <Stat>
                                         <StatLabel>Difficulty</StatLabel>
                                         <StatNumber fontFamily={"sans-serif"}>
-                                            4
+                                            5
                                         </StatNumber>
                                         <StatHelpText>hash 난이도</StatHelpText>
                                     </Stat>

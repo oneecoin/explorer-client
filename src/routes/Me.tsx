@@ -29,7 +29,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCoins, FaEdit, FaEnvelope, FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { IBalance } from "../api/mempool/types";
 import { getBalance } from "../api/mempool/wallet";
 import { IMe, IUsername } from "../api/server/types";
 import { changeUsername, getMe } from "../api/server/user";
@@ -44,15 +43,13 @@ export default function Me() {
     const [balance, setBalance] = useState(0);
     const [balanceLoading, setBalanceLoading] = useState(true);
     useEffect(() => {
-        // const fetchBalance = async () => {
-        //     setBalanceLoading(true);
-        //     const data = await getBalance(user!.wallet.public_key);
-        //     setBalance(data.balance);
-        //     setBalanceLoading(false);
-        // };
-        // fetchBalance();
-        setBalanceLoading(false);
-        setBalance(300);
+        const fetchBalance = async () => {
+            setBalanceLoading(true);
+            const data = await getBalance(user!.wallet.public_key);
+            setBalance(data.balance);
+            setBalanceLoading(false);
+        };
+        fetchBalance();
     }, [user]);
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const queryClient = useQueryClient();
