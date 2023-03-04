@@ -94,3 +94,9 @@ export interface IBlockListElem {
     timestamp: number;
     transactionsCount: number;
 }
+
+export interface ITransactionCreateForm {
+    privateKey: string;
+    to: string;
+    amount: number;
+}

@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getBlock } from "../api/mempool/blocks";
 import { IBlock } from "../api/mempool/types";
+import Helmet from "../components/Helmet";
 import { formatTime } from "../lib/format-time";
 
 export default function Block() {
@@ -25,6 +26,7 @@ export default function Block() {
                 <Spinner size={"lg"} thickness="5px" />
             ) : (
                 <Box width={"100%"} paddingX={"12"}>
+                    <Helmet title={`Block #${data!.height}`} />
                     <Text fontSize={"4xl"}>Block #{data?.height}</Text>
                     <Divider marginY={"4"} />
                     <StatGroup width={"70%"}>

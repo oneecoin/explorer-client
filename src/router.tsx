@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
 import Block from "./routes/Block";
 import Blocks from "./routes/Blocks";
+import CreateTransaction from "./routes/CreateTransaction";
 import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
 import Me from "./routes/Me";
@@ -29,8 +30,17 @@ const router = createBrowserRouter([
                 element: <GithubConfirm />,
             },
             {
-                path: "transactions/:id",
-                element: <Transaction />,
+                path: "transactions/*",
+                children: [
+                    {
+                        path: "create",
+                        element: <CreateTransaction />,
+                    },
+                    {
+                        path: ":id",
+                        element: <Transaction />,
+                    },
+                ],
             },
             {
                 path: "blocks/*",

@@ -68,14 +68,18 @@ export default function Home() {
                                 <Stat>
                                     <StatLabel>Height</StatLabel>
                                     <StatNumber fontFamily={"sans-serif"}>
-                                        {blockLoading ? 0 : latestBlock?.height}
+                                        {blockLoading || latestBlock === undefined
+                                            ? 0
+                                            : latestBlock?.height}
                                     </StatNumber>
                                     <StatHelpText>블록의 높이 (순서)</StatHelpText>
                                 </Stat>
                                 <Stat>
                                     <StatLabel>Nonce</StatLabel>
                                     <StatNumber fontFamily={"sans-serif"}>
-                                        {blockLoading ? 0 : latestBlock?.nonce}
+                                        {blockLoading || latestBlock === undefined
+                                            ? 0
+                                            : latestBlock?.nonce}
                                     </StatNumber>
                                     <StatHelpText>hash하기 위한 숫자</StatHelpText>
                                 </Stat>
@@ -83,14 +87,18 @@ export default function Home() {
                             <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
-                                    {blockLoading ? "null" : latestBlock?.hash}
+                                    {blockLoading || latestBlock === undefined
+                                        ? "null"
+                                        : latestBlock?.hash}
                                 </StatNumber>
                                 <StatHelpText>블록의 해시값</StatHelpText>
                             </Stat>
                             <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Previous Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
-                                    {blockLoading || latestBlock?.prevHash === undefined  ? "null" : latestBlock.prevHash}
+                                    {blockLoading || latestBlock?.prevHash === undefined
+                                        ? "null"
+                                        : latestBlock.prevHash}
                                 </StatNumber>
                                 <StatHelpText>블록의 이전 해시값</StatHelpText>
                             </Stat>
