@@ -88,7 +88,7 @@ export default function SearchModal({ isOpen, onClose }: IModalProps) {
                             />
                             <Input
                                 type={"text"}
-                                placeholder={"type searchBy = username | public key"}
+                                placeholder={"type searchBy = username | publicKey"}
                                 variant={"unstyled"}
                                 fontSize={"2xl"}
                                 onChange={onChange}

@@ -26,7 +26,9 @@ import { formatTime } from "../lib/format-time";
 export default function Blocks() {
     const highlightColor = useColorModeValue("blue.600", "blue.300");
     const [page, setPage] = useState(1);
-    const { data, isLoading } = useQuery<IBlockListElem[]>(["blocks", page], getBlocks);
+    const { data, isLoading } = useQuery<IBlockListElem[]>(["blocks", page], getBlocks, {
+        refetchOnWindowFocus: false,
+    });
 
     return (
         <>
@@ -51,7 +53,9 @@ export default function Blocks() {
                             {isLoading ? (
                                 <Tr>
                                     <Td colSpan={4}>
-                                        <Spinner size={"xl"} thickness="5px" />
+                                        <Box display={"flex"} justifyContent={"center"}>
+                                            <Spinner size={"lg"} thickness={"5px"} />
+                                        </Box>
                                     </Td>
                                 </Tr>
                             ) : (
@@ -95,9 +99,10 @@ export default function Blocks() {
                                 colorScheme={"blue"}
                                 variant={"ghost"}
                                 isDisabled={
-                                    isLoading || data !== undefined
+                                    isLoading ||
+                                    (data !== undefined
                                         ? data![data!.length - 1].height === 1
-                                        : true
+                                        : true)
                                 }
                                 onClick={() => setPage(page + 1)}
                             />{" "}

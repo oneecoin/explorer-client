@@ -37,7 +37,7 @@ export default function Transaction() {
             {!isLoading ? (
                 <>
                     {data !== undefined ? (
-                        <Box width={"100%"} paddingTop={"5"}>
+                        <Box width={"100%"} paddingTop={"5"} paddingLeft={"12"}>
                             <Helmet title={`${data.tx.id}`} />
                             <VStack alignItems={"start"} gap={"3"}>
                                 <HStack>

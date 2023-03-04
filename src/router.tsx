@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
+import Block from "./routes/Block";
 import Blocks from "./routes/Blocks";
 import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
@@ -24,24 +25,38 @@ const router = createBrowserRouter([
                 element: <SimpleChain />,
             },
             {
-                path: "blocks",
-                element: <Blocks />,
-            },
-            {
-                path: "users/me",
-                element: <Me />,
-            },
-            {
-                path: "users/:pk",
-                element: <User />,
+                path: "auth/github/confirm",
+                element: <GithubConfirm />,
             },
             {
                 path: "transactions/:id",
                 element: <Transaction />,
             },
             {
-                path: "auth/github/confirm",
-                element: <GithubConfirm />,
+                path: "blocks/*",
+                children: [
+                    {
+                        path: "",
+                        element: <Blocks />,
+                    },
+                    {
+                        path: ":hash",
+                        element: <Block />,
+                    },
+                ],
+            },
+            {
+                path: "users/*",
+                children: [
+                    {
+                        path: "me",
+                        element: <Me />,
+                    },
+                    {
+                        path: ":pk",
+                        element: <User />,
+                    },
+                ],
             },
         ],
     },

@@ -75,13 +75,6 @@ export interface ITransactionRes {
     tx: ITransaction;
 }
 
-export interface IBlockSummary {
-    hash: string;
-    height: number;
-    timestamp: number;
-    transactionsCount: number;
-}
-
 export interface IBalance {
     balance: number;
 }

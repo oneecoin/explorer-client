@@ -15,3 +15,9 @@ export const getBlocks = async ({ queryKey }: QueryFunctionContext) => {
     });
     return res.data;
 };
+
+export const getBlock = async ({ queryKey }: QueryFunctionContext) => {
+    const [, hash] = queryKey;
+    const res = await mempool.get(`/blocks/${hash}`);
+    return res.data;
+};

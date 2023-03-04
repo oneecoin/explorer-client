@@ -90,7 +90,7 @@ export default function Home() {
                             <Stat marginTop={"6"} opacity={"0.8"}>
                                 <StatLabel>Previous Hash</StatLabel>
                                 <StatNumber fontFamily={"sans-serif"} isTruncated>
-                                    {blockLoading ? "null" : latestBlock?.prevHash}
+                                    {blockLoading || latestBlock?.prevHash === undefined  ? "null" : latestBlock.prevHash}
                                 </StatNumber>
                                 <StatHelpText>블록의 이전 해시값</StatHelpText>
                             </Stat>
