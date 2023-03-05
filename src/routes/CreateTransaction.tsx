@@ -22,10 +22,7 @@ import {
     Popover,
     PopoverArrow,
     PopoverBody,
-    PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
-    PopoverHeader,
     PopoverTrigger,
     Text,
     Textarea,
@@ -39,6 +36,8 @@ import { getBalance } from "../api/mempool/wallet";
 import { ITransactionCreateForm } from "../api/mempool/types";
 import { useTinyUser } from "../api/server/auth";
 import Helmet from "../components/Helmet";
+import { createTransactionCount } from "../api/server/transaction";
+import { getPrivateKeyBySimplePassword } from "../api/server/wallet";
 
 export default function CreateTransaction() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
@@ -47,12 +46,16 @@ export default function CreateTransaction() {
     const [isLoading, setLoading] = useState(false);
     const [isInvalid, setIsInvalid] = useState(false);
     const [userBalance, setUserBalance] = useState(-1);
+    const [simpInput, setSimpInput] = useState("");
+    const [simpLoading, setSimpLoading] = useState(false);
+    const [simpError, setSimpError] = useState(false);
     const cancelRef = React.useRef(null);
 
     const {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { isValid },
     } = useForm<ITransactionCreateForm>();
 
@@ -70,10 +73,22 @@ export default function CreateTransaction() {
         if (!valid) {
             setIsInvalid(true);
         } else {
+            createTransactionCount(form.to, form.amount);
             reset();
             onClose();
         }
         setLoading(false);
+    };
+
+    const onSimplePasswordSubmit = async () => {
+        setSimpLoading(true);
+        const privateKey = await getPrivateKeyBySimplePassword(simpInput);
+        if (privateKey !== "") {
+            setValue("privateKey", privateKey);
+        } else {
+            setSimpError(true);
+        }
+        setSimpLoading(false);
     };
 
     return (
@@ -127,13 +142,33 @@ export default function CreateTransaction() {
                             <PopoverContent>
                                 <PopoverArrow />
                                 <PopoverBody>
-                                    <Input type={"text"} />
+                                    <Input
+                                        type={"password"}
+                                        maxLength={32}
+                                        value={simpInput}
+                                        onChange={(
+                                            event: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                            setSimpInput(event.target.value);
+                                            setSimpError(false);
+                                        }}
+                                    />
+                                    <Text marginTop={"4"} color={"red.400"}>
+                                        {simpError
+                                            ? "비밀번호가 유효하지 않습니다"
+                                            : null}
+                                    </Text>
                                     <Box
                                         width={"100%"}
                                         display={"flex"}
                                         justifyContent={"end"}
                                     >
-                                        <Button marginTop={"4"} colorScheme={"blue"}>
+                                        <Button
+                                            marginTop={"4"}
+                                            colorScheme={"blue"}
+                                            onClick={onSimplePasswordSubmit}
+                                            isLoading={simpLoading}
+                                        >
                                             비밀번호 사용하기
                                         </Button>
                                     </Box>

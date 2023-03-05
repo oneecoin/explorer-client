@@ -10,3 +10,12 @@ export async function getTransactionCount({ queryKey }: QueryFunctionContext) {
     });
     return data.data;
 }
+
+export async function createTransactionCount(receiver: string, amount: number) {
+    try {
+        await server.post("/transactions", {
+            receiver,
+            amount,
+        });
+    } catch (e) {}
+}

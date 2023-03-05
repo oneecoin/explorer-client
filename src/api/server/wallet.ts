@@ -1,5 +1,5 @@
 import { server } from "./server";
-import { ISimplePassword, IWalletCandidate } from "./types";
+import { ISimplePassword, ISimplePasswordRes, IWalletCandidate } from "./types";
 
 export const createSimplePassword = async ({
     private_key,
@@ -25,5 +25,19 @@ export const replaceWallet = async ({ private_key, public_key }: IWalletCandidat
         return true;
     } catch (e) {
         return false;
+    }
+};
+
+export const getPrivateKeyBySimplePassword = async (simplePassword: string) => {
+    try {
+        const res = await server.put<ISimplePasswordRes>(
+            "/users/me/wallet/simple-password",
+            {
+                simple_password: simplePassword,
+            }
+        );
+        return res.data.private_key;
+    } catch (e) {
+        return "";
     }
 };

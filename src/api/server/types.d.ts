@@ -45,3 +45,7 @@ export interface ISimplePassword {
 export interface IUsername {
     username: string;
 }
+
+export interface ISimplePasswordRes {
+    private_key: string;
+}
