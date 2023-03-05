@@ -143,6 +143,8 @@ export default function CreateTransaction() {
                                 <PopoverArrow />
                                 <PopoverBody>
                                     <Input
+                                        marginTop={"4"}
+                                        size={"lg"}
                                         type={"password"}
                                         maxLength={32}
                                         value={simpInput}
