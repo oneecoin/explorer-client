@@ -1,5 +1,13 @@
 import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogCloseButton,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     Box,
+    Button,
     Divider,
     FormControl,
     FormHelperText,
@@ -11,17 +19,62 @@ import {
     NumberInput,
     NumberInputField,
     NumberInputStepper,
+    Popover,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    PopoverTrigger,
     Text,
     Textarea,
     useColorModeValue,
+    useDisclosure,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { createMempoolTransaction } from "../api/mempool/transaction";
+import { getBalance } from "../api/mempool/wallet";
 import { ITransactionCreateForm } from "../api/mempool/types";
+import { useTinyUser } from "../api/server/auth";
 import Helmet from "../components/Helmet";
 
 export default function CreateTransaction() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
-    const {} = useForm<ITransactionCreateForm>();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isLoggedIn, user, userLoading } = useTinyUser();
+    const [isLoading, setLoading] = useState(false);
+    const [isInvalid, setIsInvalid] = useState(false);
+    const [userBalance, setUserBalance] = useState(-1);
+    const cancelRef = React.useRef(null);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { isValid },
+    } = useForm<ITransactionCreateForm>();
+
+    useEffect(() => {
+        const getUserBalance = async () => {
+            const data = await getBalance(user!.public_key);
+            setUserBalance(data.balance);
+        };
+        getUserBalance();
+    }, [user]);
+
+    const onSubmit = async (form: ITransactionCreateForm) => {
+        setLoading(true);
+        const valid = await createMempoolTransaction(form);
+        if (!valid) {
+            setIsInvalid(true);
+        } else {
+            reset();
+            onClose();
+        }
+        setLoading(false);
+    };
 
     return (
         <Box width={"100%"} display={"flex"} justifyContent={"center"}>
@@ -40,14 +93,54 @@ export default function CreateTransaction() {
                     <Divider marginY={"4"} />
                     <FormControl>
                         <FormLabel>Receiver Public Key</FormLabel>
-                        <Textarea resize={"none"} overflow={"hidden"} />
+                        <Textarea
+                            resize={"none"}
+                            overflow={"hidden"}
+                            {...register("to", {
+                                required: true,
+                            })}
+                        />
                         <FormHelperText>코인을 받는 지갑의 public key</FormHelperText>
                     </FormControl>
                     <FormControl marginTop={"4"}>
                         <FormLabel>Sender Private Key</FormLabel>
-                        <Textarea resize={"none"} overflow={"hidden"} />
+                        <Textarea
+                            resize={"none"}
+                            overflow={"hidden"}
+                            {...register("privateKey", {
+                                required: true,
+                            })}
+                        />
                         <FormHelperText>코인을 보내는 지갑의 private key</FormHelperText>
                     </FormControl>
+                    <Box marginTop={"6"}>
+                        <Popover placement="right">
+                            <PopoverTrigger>
+                                <Button
+                                    colorScheme={"blue"}
+                                    variant={"outline"}
+                                    isDisabled={userLoading || !isLoggedIn}
+                                >
+                                    간편 비밀번호 사용
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <PopoverArrow />
+                                <PopoverBody>
+                                    <Input type={"text"} />
+                                    <Box
+                                        width={"100%"}
+                                        display={"flex"}
+                                        justifyContent={"end"}
+                                    >
+                                        <Button marginTop={"4"} colorScheme={"blue"}>
+                                            비밀번호 사용하기
+                                        </Button>
+                                    </Box>
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                    </Box>
                 </Box>
                 <Box
                     paddingX={"8"}
@@ -67,14 +160,23 @@ export default function CreateTransaction() {
                         height={"28"}
                     >
                         <Text fontSize={"2xl"}>Your Balance</Text>
-                        <Text fontSize={"xl"} marginTop={"3"}>
-                            532
-                        </Text>
+                        <Box fontSize={"xl"} marginTop={"3"}>
+                            {userLoading || !isLoggedIn || userBalance === -1 ? (
+                                <Text color={"gray.500"}>unknown</Text>
+                            ) : (
+                                <Text>{userBalance}</Text>
+                            )}
+                        </Box>
                     </Box>
-                    <FormControl marginTop={"4"}>
+                    <FormControl marginTop={"24"}>
                         <FormLabel>Amount</FormLabel>
-                        <NumberInput size={"lg"}>
-                            <NumberInputField />
+                        <NumberInput size={"lg"} min={0} defaultValue={0}>
+                            <NumberInputField
+                                {...register("amount", {
+                                    required: true,
+                                    valueAsNumber: true,
+                                })}
+                            />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
@@ -82,8 +184,64 @@ export default function CreateTransaction() {
                         </NumberInput>
                         <FormHelperText>보낼 금액</FormHelperText>
                     </FormControl>
+                    <Button
+                        marginTop={"12"}
+                        colorScheme={"blue"}
+                        onClick={onOpen}
+                        isDisabled={!isValid}
+                    >
+                        코인 전송하기
+                    </Button>
                 </Box>
             </HStack>
+            <AlertDialog
+                isOpen={isOpen}
+                onClose={onClose}
+                leastDestructiveRef={cancelRef}
+                size={"xl"}
+            >
+                <AlertDialogOverlay />
+                <AlertDialogContent>
+                    <AlertDialogHeader>Confirm Transaction</AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody>
+                        <Text fontSize={"xl"}>
+                            정말로 이 지갑에 코인을 전송하시겠습니까?
+                        </Text>
+                        <Text marginTop={"5"} color={"red.300"}>
+                            지갑 주소가 유효하지 않아도 한번 전송한 코인은 되돌릴 수
+                            없습니다.
+                        </Text>
+                        <Text
+                            marginTop={"7"}
+                            height={"7"}
+                            color={"red.300"}
+                            fontSize={"md"}
+                        >
+                            {isInvalid
+                                ? "private key 혹은 amount가 유효하지 않습니다"
+                                : null}
+                        </Text>
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                        <Button
+                            colorScheme={"blue"}
+                            onClick={handleSubmit(onSubmit)}
+                            isLoading={isLoading}
+                        >
+                            전송하기
+                        </Button>
+                        <Button
+                            marginLeft={"5"}
+                            variant={"ghost"}
+                            onClick={onClose}
+                            ref={cancelRef}
+                        >
+                            취소
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </Box>
     );
 }
