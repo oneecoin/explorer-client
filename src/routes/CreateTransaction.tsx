@@ -38,8 +38,10 @@ import { useTinyUser } from "../api/server/auth";
 import Helmet from "../components/Helmet";
 import { createTransactionCount } from "../api/server/transaction";
 import { getPrivateKeyBySimplePassword } from "../api/server/wallet";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateTransaction() {
+    const queryClient = useQueryClient();
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isLoggedIn, user, userLoading } = useTinyUser();
@@ -74,6 +76,10 @@ export default function CreateTransaction() {
             setIsInvalid(true);
         } else {
             createTransactionCount(form.to, form.amount);
+            queryClient.refetchQueries({
+                queryKey: ["tinyMe"],
+                exact: true,
+            });
             reset();
             onClose();
         }

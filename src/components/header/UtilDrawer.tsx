@@ -34,6 +34,7 @@ const codes: string[] = [
     "fmt.Println('Oneecoin')",
     "System.out.println('Oneecoin');",
     "println('Oneecoin')",
+    "Console.WriteLine('Oneecoin');",
 ];
 
 export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
