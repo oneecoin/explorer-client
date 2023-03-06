@@ -68,7 +68,7 @@ export default function User() {
                                 </HStack>
                                 <Text>{data.public_key}</Text>
                                 <Link
-                                    to={`/transactions/create?pubilcKey=${data.public_key}`}
+                                    to={`/transactions/create?publicKey=${data.public_key}`}
                                 >
                                     <Button colorScheme={"blue"}>코인 전송하기</Button>
                                 </Link>
