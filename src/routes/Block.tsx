@@ -49,6 +49,9 @@ export default function Block() {
                             {data?.prevHash === undefined ? "null" : data?.prevHash}
                         </Text>
                     </Box>
+                    <Box>
+                        
+                    </Box>
                 </Box>
             )}
         </Box>

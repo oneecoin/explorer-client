@@ -18,7 +18,6 @@ import {
     PopoverTrigger,
     Skeleton,
     SkeletonCircle,
-    SkeletonText,
     Text,
     useColorModeValue,
     useDisclosure,
@@ -40,7 +39,7 @@ export default function Me() {
     const { data: user, isLoading: userLoading } = useQuery<IMe>(["users", "me"], getMe, {
         refetchOnWindowFocus: false,
     });
-    const [balance, setBalance] = useState(0);
+    const [balance, setBalance] = useState(-1);
     const [balanceLoading, setBalanceLoading] = useState(true);
     useEffect(() => {
         const fetchBalance = async () => {
