@@ -41,7 +41,7 @@ export default function Chart() {
         if (counts.length !== 0) {
             const totalCount = counts.reduce((acc, cur) => acc + cur, 0);
             setTotal(totalCount);
-            setAverage(Math.round(totalCount / counts.length));
+            setAverage(parseFloat((totalCount / counts.length).toFixed(2)));
             setMax(Math.max.apply(null, counts));
         } else {
             setTotal(0);
