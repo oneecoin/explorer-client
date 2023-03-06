@@ -27,11 +27,11 @@ const refreshAccessToken = async (err: any) => {
     if (localStorage.getItem("access") !== "") {
         config.sent = true;
         try {
-            const { data } = await axios("/auth/refresh", {
+            const { data } = await axios("https://wallet.oneecoin.site/auth/refresh", {
                 method: "get",
                 withCredentials: true,
             });
-            localStorage.setItem("access", data.access);
+            localStorage.setItem("access", data.data.access);
         } catch (e) {
             localStorage.removeItem("access");
         }

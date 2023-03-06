@@ -78,7 +78,20 @@ export default function Block() {
                                         })}
                                     </TabList>
                                     <TabPanels>
-                                        <TabPanel></TabPanel>
+                                        {data!.transactions.map((tx) => {
+                                            return (
+                                                <TabPanel>
+                                                    {formatTime(tx.timestamp)}
+                                                    {tx.txIns.from}
+                                                    {tx.txIns.v.map((txIn) => {
+                                                        return <>{txIn}</>;
+                                                    })}
+                                                    {tx.txOuts.map((txOut) => {
+                                                        return <>{txOut}</>;
+                                                    })}
+                                                </TabPanel>
+                                            );
+                                        })}
                                     </TabPanels>
                                 </Tabs>
                             </>
