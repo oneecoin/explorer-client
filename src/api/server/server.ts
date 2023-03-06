@@ -24,12 +24,17 @@ const refreshAccessToken = async (err: any) => {
     if (status !== 401 || config.sent) {
         return Promise.reject(err);
     }
-    config.sent = true;
-    try {
-        const { data } = await axios.post("/auth/refresh");
-        localStorage.setItem("access", data.access);
-    } catch (e) {
-        localStorage.removeItem("access");
+    if (localStorage.getItem("access") !== "") {
+        config.sent = true;
+        try {
+            const { data } = await axios("/auth/refresh", {
+                method: "post",
+                withCredentials: true,
+            });
+            localStorage.setItem("access", data.access);
+        } catch (e) {
+            localStorage.removeItem("access");
+        }
     }
 
     return axios(config);

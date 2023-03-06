@@ -6,6 +6,11 @@ import {
     StatGroup,
     StatLabel,
     StatNumber,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
     Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -50,7 +55,15 @@ export default function Block() {
                         </Text>
                     </Box>
                     <Box>
-                        
+                        <Tabs>
+                            <TabList>
+                                <Tab>hi</Tab>
+                                <Tab>hi there</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel></TabPanel>
+                            </TabPanels>
+                        </Tabs>
                     </Box>
                 </Box>
             )}
