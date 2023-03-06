@@ -41,6 +41,7 @@ import { getPrivateKeyBySimplePassword } from "../api/server/wallet";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateTransaction() {
+    const searchParams = new URLSearchParams(document.location.search);
     const queryClient = useQueryClient();
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -115,6 +116,7 @@ export default function CreateTransaction() {
                     <FormControl>
                         <FormLabel>Receiver Public Key</FormLabel>
                         <Textarea
+                            defaultValue={searchParams.get("publicKey") ?? ""}
                             resize={"none"}
                             overflow={"hidden"}
                             {...register("to", {
