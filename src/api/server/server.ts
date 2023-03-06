@@ -28,7 +28,7 @@ const refreshAccessToken = async (err: any) => {
         config.sent = true;
         try {
             const { data } = await axios("/auth/refresh", {
-                method: "post",
+                method: "get",
                 withCredentials: true,
             });
             localStorage.setItem("access", data.access);

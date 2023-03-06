@@ -55,15 +55,34 @@ export default function Block() {
                         </Text>
                     </Box>
                     <Box>
-                        <Tabs>
-                            <TabList>
-                                <Tab>hi</Tab>
-                                <Tab>hi there</Tab>
-                            </TabList>
-                            <TabPanels>
-                                <TabPanel></TabPanel>
-                            </TabPanels>
-                        </Tabs>
+                        {isLoading ? (
+                            <Box
+                                width={"100%"}
+                                height={"40"}
+                                display={"flex"}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                            >
+                                <Spinner size={"xl"} thickness="5px" />
+                            </Box>
+                        ) : (
+                            <>
+                                <Tabs>
+                                    <TabList>
+                                        {data!.transactions.map((tx) => {
+                                            return (
+                                                <Tab width={"32"} isTruncated>
+                                                    {tx.id}
+                                                </Tab>
+                                            );
+                                        })}
+                                    </TabList>
+                                    <TabPanels>
+                                        <TabPanel></TabPanel>
+                                    </TabPanels>
+                                </Tabs>
+                            </>
+                        )}
                     </Box>
                 </Box>
             )}
