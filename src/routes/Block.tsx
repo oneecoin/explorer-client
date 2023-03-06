@@ -1,6 +1,9 @@
 import {
     Box,
+    Card,
+    CardBody,
     Divider,
+    HStack,
     Spinner,
     Stat,
     StatGroup,
@@ -54,7 +57,7 @@ export default function Block() {
                             {data?.prevHash === undefined ? "null" : data?.prevHash}
                         </Text>
                     </Box>
-                    <Box>
+                    <Box marginTop={"20"}>
                         {isLoading ? (
                             <Box
                                 width={"100%"}
@@ -71,8 +74,10 @@ export default function Block() {
                                     <TabList>
                                         {data!.transactions.map((tx) => {
                                             return (
-                                                <Tab width={"32"} isTruncated>
-                                                    {tx.id}
+                                                <Tab width={"44"}>
+                                                    <Text width={"40"} isTruncated>
+                                                        {tx.id}
+                                                    </Text>
                                                 </Tab>
                                             );
                                         })}
@@ -80,15 +85,111 @@ export default function Block() {
                                     <TabPanels>
                                         {data!.transactions.map((tx) => {
                                             return (
-                                                <TabPanel>
-                                                    {formatTime(tx.timestamp)}
-                                                    {tx.txIns.from}
-                                                    {tx.txIns.v.map((txIn) => {
-                                                        return <>{txIn}</>;
-                                                    })}
-                                                    {tx.txOuts.map((txOut) => {
-                                                        return <>{txOut}</>;
-                                                    })}
+                                                <TabPanel paddingX={"12"}>
+                                                    <HStack
+                                                        fontSize={"lg"}
+                                                        justifyContent={"space-between"}
+                                                        marginBottom={"4"}
+                                                    >
+                                                        <Text>Transaction: {tx.id}</Text>
+                                                        <Text color={"gray.500"}>
+                                                            {formatTime(tx.timestamp)}
+                                                        </Text>
+                                                    </HStack>
+                                                    <Text
+                                                        color={"gray.500"}
+                                                        marginTop={"4"}
+                                                    >
+                                                        From: {tx.txIns.from}
+                                                    </Text>
+                                                    <Box marginTop={"12"}>
+                                                        <Text>Input</Text>
+                                                        <HStack marginTop={"5"}>
+                                                            {tx.txIns.v.map((txIn) => {
+                                                                return (
+                                                                    <Card width={"64"}>
+                                                                        <CardBody>
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                Block:{" "}
+                                                                                {txIn.blockHash ===
+                                                                                ""
+                                                                                    ? "SYSTEM"
+                                                                                    : txIn.blockHash}
+                                                                            </Text>
+                                                                            <Divider
+                                                                                marginY={
+                                                                                    "2"
+                                                                                }
+                                                                            />
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                TxID:{" "}
+                                                                                {txIn.txId ===
+                                                                                ""
+                                                                                    ? "null"
+                                                                                    : txIn.txId}
+                                                                            </Text>
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                Signature:{" "}
+                                                                                {txIn.signature ===
+                                                                                ""
+                                                                                    ? "null"
+                                                                                    : txIn.signature}
+                                                                            </Text>
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                Index:{" "}
+                                                                                {
+                                                                                    txIn.index
+                                                                                }
+                                                                            </Text>
+                                                                        </CardBody>
+                                                                    </Card>
+                                                                );
+                                                            })}
+                                                        </HStack>
+                                                    </Box>
+                                                    <Box marginTop={"12"}>
+                                                        <Text>Output</Text>
+                                                        <HStack marginTop={"5"}>
+                                                            {tx.txOuts.map((txOut) => {
+                                                                return (
+                                                                    <Card width={"64"}>
+                                                                        <CardBody>
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                Public
+                                                                                Key:{" "}
+                                                                                {
+                                                                                    txOut.publicKey
+                                                                                }
+                                                                            </Text>
+                                                                            <Divider
+                                                                                marginY={
+                                                                                    "2"
+                                                                                }
+                                                                            />
+                                                                            <Text
+                                                                                isTruncated
+                                                                            >
+                                                                                Amount:{" "}
+                                                                                {
+                                                                                    txOut.amount
+                                                                                }
+                                                                            </Text>
+                                                                        </CardBody>
+                                                                    </Card>
+                                                                );
+                                                            })}
+                                                        </HStack>
+                                                    </Box>
                                                 </TabPanel>
                                             );
                                         })}

@@ -31,7 +31,7 @@ const refreshAccessToken = async (err: any) => {
                 method: "get",
                 withCredentials: true,
             });
-            localStorage.setItem("access", data.data.access);
+            localStorage.setItem("access", data.access);
         } catch (e) {
             localStorage.removeItem("access");
         }
