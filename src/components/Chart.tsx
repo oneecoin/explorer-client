@@ -28,9 +28,9 @@ export default function Chart() {
     const boxColor = useColorModeValue("#fdfdfd", "#1f2634");
     const statColor = useColorModeValue("blue.600", "blue.300");
     const [scope, setScope] = useState("week");
-    const [total, setTotal] = useState(0);
-    const [average, setAverage] = useState(0);
-    const [max, setMax] = useState(0);
+    const [total, setTotal] = useState(-1);
+    const [average, setAverage] = useState(-1);
+    const [max, setMax] = useState(-1);
     const { isLoading, data } = useQuery<ITransactionCount[]>(
         ["txCounts", scope],
         getTransactionCount
@@ -183,21 +183,21 @@ export default function Chart() {
                         <Stat>
                             <StatLabel>합계</StatLabel>
                             <StatNumber color={statColor}>
-                                {total !== 0 ? total : "No Data"}
+                                {total !== -1 ? total : "No Data"}
                             </StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>평균</StatLabel>
                             <StatNumber color={statColor}>
-                                {average !== 0 ? average : "No Data"}
+                                {average !== -1 ? average : "No Data"}
                             </StatNumber>
                         </Stat>
 
                         <Stat>
                             <StatLabel>최고</StatLabel>
                             <StatNumber color={statColor}>
-                                {max !== 0 ? max : "No Data"}
+                                {max !== -1 ? max : "No Data"}
                             </StatNumber>
                         </Stat>
                     </VStack>
