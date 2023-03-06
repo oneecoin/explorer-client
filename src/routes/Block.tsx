@@ -4,6 +4,7 @@ import {
     CardBody,
     Divider,
     HStack,
+    Link,
     Spinner,
     Stat,
     StatGroup,
@@ -17,7 +18,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, Link as ReactRouterLink } from "react-router-dom";
 import { getBlock } from "../api/mempool/blocks";
 import { IBlock } from "../api/mempool/types";
 import Helmet from "../components/Helmet";
@@ -53,9 +54,18 @@ export default function Block() {
                     </Box>
                     <Box marginTop={"4"}>
                         <Text>Previous Hash</Text>
-                        <Text fontSize={"xl"}>
-                            {data?.prevHash === undefined ? "null" : data?.prevHash}
-                        </Text>
+                        <Link
+                            as={ReactRouterLink}
+                            to={
+                                data?.prevHash === undefined
+                                    ? "#"
+                                    : `/blocks/${data.prevHash}`
+                            }
+                        >
+                            <Text fontSize={"xl"}>
+                                {data?.prevHash === undefined ? "null" : data?.prevHash}
+                            </Text>
+                        </Link>
                     </Box>
                     <Box marginTop={"20"}>
                         {isLoading ? (
