@@ -264,7 +264,7 @@ export default function CreateTransaction() {
                             fontSize={"md"}
                         >
                             {isInvalid
-                                ? "private key 혹은 amount가 유효하지 않습니다"
+                                ? "private key 혹은 amount가 유효하지 않거나 이미 mempool에 거래를 올렸습니다."
                                 : null}
                         </Text>
                     </AlertDialogBody>

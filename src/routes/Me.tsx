@@ -32,6 +32,7 @@ import { getBalance } from "../api/mempool/wallet";
 import { IMe, IUsername } from "../api/server/types";
 import { changeUsername, getMe } from "../api/server/user";
 import Helmet from "../components/Helmet";
+import MyTransactions from "../components/MyTransactions";
 import SimplePasswordModal from "../components/SimplePasswordModal";
 import WalletCreateModal from "../components/WalletCreateModal";
 
@@ -312,15 +313,7 @@ export default function Me() {
                         </Box>
                     </VStack>
                 </HStack>
-                <Box width={"80%"}>
-                    <VStack>
-                        <Skeleton isLoaded={!userLoading}>
-                            <Button colorScheme={"blue"} variant={"outline"} size={"lg"}>
-                                거래 내역 보기
-                            </Button>
-                        </Skeleton>
-                    </VStack>
-                </Box>
+                <MyTransactions isLoaded={!userLoading} />
             </VStack>
         </>
     );

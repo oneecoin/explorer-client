@@ -1,5 +1,5 @@
 import { mempool } from "./mempool";
-import { IBalance, IWalletCreated } from "./types";
+import { IBalance, ITransaction, ITransactionListElem, IWalletCreated } from "./types";
 
 export const createWallet = async (): Promise<IWalletCreated> => {
     const res = await mempool.post("/wallets");
@@ -11,7 +11,7 @@ export const getBalance = async (publicKey: string): Promise<IBalance> => {
     return res.data;
 };
 
-export const getMyTransactions = async (publicKey: string): Promise<IBalance> => {
+export const getMyTransactions = async (publicKey: string): Promise<ITransaction[]> => {
     const res = await mempool.get(`/wallets/${publicKey}`);
     return res.data;
 };
