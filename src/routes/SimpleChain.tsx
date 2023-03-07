@@ -48,73 +48,79 @@ export default function SimpleChain() {
                                 <Text fontSize={"lg"}>total blocks</Text>
                                 <Text fontSize={"sm"}>{data?.count}</Text>
                             </Box>
-                            {data?.blocks
-                                .slice(0)
-                                .reverse()
-                                .map((block) => (
-                                    <>
-                                        <Box
-                                            bgColor={boxColor}
-                                            borderRadius={"2xl"}
-                                            boxShadow={"lg"}
-                                            width={"xl"}
-                                            height={"96"}
-                                            padding={"5"}
-                                        >
-                                            <HStack
-                                                justifyContent={"space-between"}
-                                                paddingRight={"3"}
-                                            >
-                                                <Text fontSize={"4xl"}>
-                                                    Block #{block.height}
-                                                </Text>
-                                                <Text color={"gray.500"}>
-                                                    {formatTime(block.created)}
-                                                </Text>
-                                            </HStack>
-                                            <Divider />
-                                            <StatGroup marginTop={"4"}>
-                                                <Stat>
-                                                    <StatLabel>Data</StatLabel>
-                                                    <StatNumber
-                                                        isTruncated
-                                                        maxWidth={"64"}
-                                                    >
-                                                        {block.data}
-                                                    </StatNumber>
-                                                </Stat>
-                                                <Stat marginLeft={"10"}>
-                                                    <StatLabel>Nonce</StatLabel>
-                                                    <StatNumber>{block.nonce}</StatNumber>
-                                                </Stat>
-                                            </StatGroup>
-                                            <VStack
-                                                marginTop={"5"}
-                                                fontSize={"md"}
-                                                alignItems={"start"}
-                                                gap={"3"}
-                                                opacity={"0.9"}
-                                            >
-                                                <Box width={"100%"}>
-                                                    <Text>Public Key</Text>
-                                                    <Text isTruncated>
-                                                        {block.publicKey}
-                                                    </Text>
-                                                </Box>
-                                                <Box width={"100%"}>
-                                                    <Text>Hash</Text>
-                                                    <Text isTruncated>{block.hash}</Text>
-                                                </Box>
-                                                <Box width={"100%"}>
-                                                    <Text>Previous Hash</Text>
-                                                    <Text isTruncated>
-                                                        {block.prevHash}
-                                                    </Text>
-                                                </Box>
-                                            </VStack>
-                                        </Box>
-                                    </>
-                                ))}
+                            {data?.blocks.length !== 0
+                                ? data?.blocks
+                                      .slice(0)
+                                      .reverse()
+                                      .map((block) => (
+                                          <>
+                                              <Box
+                                                  bgColor={boxColor}
+                                                  borderRadius={"2xl"}
+                                                  boxShadow={"lg"}
+                                                  width={"xl"}
+                                                  height={"96"}
+                                                  padding={"5"}
+                                              >
+                                                  <HStack
+                                                      justifyContent={"space-between"}
+                                                      paddingRight={"3"}
+                                                  >
+                                                      <Text fontSize={"4xl"}>
+                                                          Block #{block.height}
+                                                      </Text>
+                                                      <Text color={"gray.500"}>
+                                                          {formatTime(block.created)}
+                                                      </Text>
+                                                  </HStack>
+                                                  <Divider />
+                                                  <StatGroup marginTop={"4"}>
+                                                      <Stat>
+                                                          <StatLabel>Data</StatLabel>
+                                                          <StatNumber
+                                                              isTruncated
+                                                              maxWidth={"64"}
+                                                          >
+                                                              {block.data}
+                                                          </StatNumber>
+                                                      </Stat>
+                                                      <Stat marginLeft={"10"}>
+                                                          <StatLabel>Nonce</StatLabel>
+                                                          <StatNumber>
+                                                              {block.nonce}
+                                                          </StatNumber>
+                                                      </Stat>
+                                                  </StatGroup>
+                                                  <VStack
+                                                      marginTop={"5"}
+                                                      fontSize={"md"}
+                                                      alignItems={"start"}
+                                                      gap={"3"}
+                                                      opacity={"0.9"}
+                                                  >
+                                                      <Box width={"100%"}>
+                                                          <Text>Public Key</Text>
+                                                          <Text isTruncated>
+                                                              {block.publicKey}
+                                                          </Text>
+                                                      </Box>
+                                                      <Box width={"100%"}>
+                                                          <Text>Hash</Text>
+                                                          <Text isTruncated>
+                                                              {block.hash}
+                                                          </Text>
+                                                      </Box>
+                                                      <Box width={"100%"}>
+                                                          <Text>Previous Hash</Text>
+                                                          <Text isTruncated>
+                                                              {block.prevHash}
+                                                          </Text>
+                                                      </Box>
+                                                  </VStack>
+                                              </Box>
+                                          </>
+                                      ))
+                                : null}
                         </>
                     )}
                 </VStack>
