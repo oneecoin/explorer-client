@@ -167,7 +167,7 @@ export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
                             colorScheme={"blue"}
                             variant={"outline"}
                             onClick={() => {
-                                goTo("/miners/doc");
+                                goTo("/doc/miners");
                             }}
                         >
                             블록체인 채굴하기

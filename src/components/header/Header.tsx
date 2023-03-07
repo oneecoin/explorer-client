@@ -9,10 +9,9 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaBars, FaCoins, FaCrow, FaSearch } from "react-icons/fa";
+import { FaBars, FaCrow, FaInfoCircle, FaSearch } from "react-icons/fa";
 import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 import UserBar from "./UserBar";
-import { useRef } from "react";
 import UtilDrawaer from "./UtilDrawer";
 import SearchModal from "./SearchModal";
 
@@ -76,13 +75,15 @@ export default function Header() {
                         icon={<Icon />}
                     />
                     <UserBar />
-                    <Button
-                        colorScheme={"blue"}
-                        variant={"outline"}
-                        leftIcon={<FaCoins />}
-                    >
-                        Become a Miner
-                    </Button>
+                    <Link to="/doc">
+                        <Button
+                            colorScheme={"blue"}
+                            variant={"outline"}
+                            leftIcon={<FaInfoCircle />}
+                        >
+                            Documentation
+                        </Button>
+                    </Link>
                     <IconButton
                         aria-label="bar"
                         icon={<FaBars />}

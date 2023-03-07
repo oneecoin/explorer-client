@@ -181,7 +181,7 @@ export default function Home() {
                                     marginRight={"8"}
                                     marginBottom={"4"}
                                     as={ReactRouterLink}
-                                    to={"/miners/doc"}
+                                    to={"/doc/miners"}
                                 >
                                     채굴하기
                                 </Button>
