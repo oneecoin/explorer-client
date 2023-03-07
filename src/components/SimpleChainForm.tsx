@@ -160,6 +160,7 @@ export default function SimpleChainForm() {
                         <NumberInput
                             min={0}
                             defaultValue={0}
+                            inputMode={"numeric"}
                             onChange={(valueAsString: string, valueAsNumber: number) => {
                                 setValue("block.nonce", valueAsNumber);
                                 setMyNonce(valueAsNumber);

@@ -215,7 +215,12 @@ export default function CreateTransaction() {
                     </Box>
                     <FormControl marginTop={"24"}>
                         <FormLabel>Amount</FormLabel>
-                        <NumberInput size={"lg"} min={0} defaultValue={0}>
+                        <NumberInput
+                            size={"lg"}
+                            min={0}
+                            defaultValue={0}
+                            inputMode={"numeric"}
+                        >
                             <NumberInputField
                                 {...register("amount", {
                                     required: true,
