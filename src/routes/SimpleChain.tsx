@@ -48,7 +48,7 @@ export default function SimpleChain() {
                                 <Text fontSize={"lg"}>total blocks</Text>
                                 <Text fontSize={"sm"}>{data?.count}</Text>
                             </Box>
-                            {data?.blocks.length !== 0
+                            {data?.blocks !== null
                                 ? data?.blocks
                                       .slice(0)
                                       .reverse()
