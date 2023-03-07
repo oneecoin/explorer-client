@@ -180,8 +180,8 @@ export default function Home() {
                                     size={"xs"}
                                     marginRight={"8"}
                                     marginBottom={"4"}
-                                    as={ReactRouterLink}
-                                    to={"/doc/miners"}
+                                    as="a"
+                                    href="https://github.com/oneecoin/.github/blob/main/profile/README.md"
                                 >
                                     채굴하기
                                 </Button>

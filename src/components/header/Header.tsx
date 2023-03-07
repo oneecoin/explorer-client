@@ -75,15 +75,15 @@ export default function Header() {
                         icon={<Icon />}
                     />
                     <UserBar />
-                    <Link to="/doc">
-                        <Button
-                            colorScheme={"blue"}
-                            variant={"outline"}
-                            leftIcon={<FaInfoCircle />}
-                        >
-                            Documentation
-                        </Button>
-                    </Link>
+                    <Button
+                        colorScheme={"blue"}
+                        variant={"outline"}
+                        leftIcon={<FaInfoCircle />}
+                        as="a"
+                        href="https://github.com/oneecoin/.github/blob/main/profile/README.md"
+                    >
+                        Documentation
+                    </Button>
                     <IconButton
                         aria-label="bar"
                         icon={<FaBars />}

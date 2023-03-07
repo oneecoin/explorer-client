@@ -166,9 +166,8 @@ export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
                             width={"100%"}
                             colorScheme={"blue"}
                             variant={"outline"}
-                            onClick={() => {
-                                goTo("/doc/miners");
-                            }}
+                            as="a"
+                            href="https://github.com/oneecoin/.github/blob/main/profile/README.md"
                         >
                             블록체인 채굴하기
                         </Button>
