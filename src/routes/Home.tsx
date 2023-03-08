@@ -182,6 +182,7 @@ export default function Home() {
                                     marginBottom={"4"}
                                     as="a"
                                     href="https://github.com/oneecoin/.github/blob/main/profile/README.md"
+                                    isDisabled
                                 >
                                     채굴하기
                                 </Button>

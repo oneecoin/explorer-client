@@ -168,6 +168,7 @@ export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
                             variant={"outline"}
                             as="a"
                             href="https://github.com/oneecoin/.github/blob/main/profile/README.md"
+                            isDisabled
                         >
                             블록체인 채굴하기
                         </Button>
