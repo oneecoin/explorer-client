@@ -48,7 +48,7 @@ export default function UtilDrawaer({ isOpen, onClose }: IDrawerProps) {
         setLoading(true);
         await server.get("/auth/logout");
         localStorage.removeItem("exp");
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("access");
         onClose();
         queryClient.refetchQueries({ queryKey: ["messages"], exact: true });
         queryClient.refetchQueries({ queryKey: ["tinyMe"], exact: true });
